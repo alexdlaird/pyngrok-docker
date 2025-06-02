@@ -11,18 +11,9 @@ on:
 #     types: [ created ]
 
 jobs:
-  build:
-    name: Build
-
-    env:
-      DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-      PUBLISH: ${{ inputs.PUBLISH }}
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Trigger build with publish
-        uses: ./.github/workflows/build.yml
-        with:
-          publish: true
+  release:
+    name: Release
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
+    with:
+      publish: true
