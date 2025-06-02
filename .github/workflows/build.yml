@@ -10,7 +10,16 @@ on:
   schedule:
     - cron: "0 9 * * *"
   workflow_dispatch:
+    inputs:
+      publish:
+        type: boolean
+        default: false
   workflow_call:
+    inputs:
+      publish:
+        type: boolean
+        default: false
+        required: true
 
 jobs:
   build:
