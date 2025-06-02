@@ -7,10 +7,8 @@ for PYTHON_VERSION in 3.8 3.9 3.10 3.11 3.12 3.13; do
   for DISTRO in bookworm bullseye alpine; do
     docker buildx build \
         -t "$DOCKER_USERNAME/pyngrok:$PYTHON_VERSION-$DISTRO" \
-        --build-arg PYTHON_VERSION=$PYTHON_VERSION \
-        --build-arg DISTRO=$DISTRO \
         --platform=$LINUX_PLATFORMS \
-        linux
+        linux/$PYTHON_VERSION/$DISTRO
 
     # Tag a default distro, for when none is given
     if [ $DISTRO == "bookworm" ]; then
