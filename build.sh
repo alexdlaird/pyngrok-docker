@@ -16,6 +16,7 @@ docker buildx build \
     --build-arg "PYTHON_VERSION=$PYTHON_VERSION" \
     --build-arg "DISTRO=$DISTRO" \
     --platform="$PLATFORM" \
+    --load \
     .
 
 # Add special tags for default images
