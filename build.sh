@@ -2,6 +2,8 @@
 
 set -o errexit
 
+DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 DOCKER_USERNAME="${DOCKER_USERNAME:-alexdlaird}"
 
 if [[ "$PYTHON_VERSION" == "" ]]; then echo "PYTHON_VERSION is not set" & exit 1 ; fi
@@ -16,7 +18,7 @@ docker buildx build \
     --build-arg "PYTHON_VERSION=$PYTHON_VERSION" \
     --build-arg "DISTRO=$DISTRO" \
     --platform="$PLATFORM" \
-    .
+    "$DIR"
 
 # Add special tags for default images
 if [[ "$PYTHON_VERSION" == "3.13" ]]; then
