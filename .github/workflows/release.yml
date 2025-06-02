@@ -23,6 +23,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Trigger build with publish
-        uses: ./.github/workflows/build.yml@main
+        uses: ./.github/workflows/build.yml
         with:
-          PUBLISH: True
+          publish: true
