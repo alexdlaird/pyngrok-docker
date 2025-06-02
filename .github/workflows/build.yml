@@ -12,9 +12,6 @@ on:
   workflow_dispatch:
   workflow_call:
 
-concurrency:
-  group: pyngrok-singleton
-
 jobs:
   build:
     name: Build
