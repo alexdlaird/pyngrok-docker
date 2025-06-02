@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -o errexit
+
 DOCKER_USERNAME="${DOCKER_USERNAME:-alexdlaird}"
 
 if [[ "$PYTHON_VERSION" == "" ]]; then echo "PYTHON_VERSION is not set" & exit 1 ; fi
@@ -18,11 +20,13 @@ docker buildx build \
 
 # Add special tags for default images
 if [[ "$PYTHON_VERSION" == "3.13" ]]; then
-  docker tag "$DOCKER_USERNAME/pyngrok:$DISTRO"
+  IMAGE_ID=$(docker images -q --format '{{.ID}}' | head -1)
+
+  docker tag "$IMAGE_ID" "$DOCKER_USERNAME/pyngrok:$DISTRO"
 
   if [[ "$DISTRO" == "bookworm" ]]; then
-    docker tag "$DOCKER_USERNAME/pyngrok:$PYTHON_VERSION"
-    docker tag "$DOCKER_USERNAME/pyngrok:latest"
+    docker tag "$IMAGE_ID" "$DOCKER_USERNAME/pyngrok:$PYTHON_VERSION"
+    docker tag "$IMAGE_ID" "$DOCKER_USERNAME/pyngrok:latest"
   fi
 fi
 
