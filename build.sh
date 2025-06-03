@@ -21,14 +21,14 @@ else
 fi
 
 # Build tag aliases
-DEFAULT_TAG="$DOCKER_USERNAME/pyngrok:$VERSION-py$PYTHON_VERSION-$DISTRO"
+DEFAULT_TAG="$DOCKER_USERNAME/pyngrok:py$PYTHON_VERSION-$DISTRO-$VERSION"
 ADDITIONAL_TAG_ARGS=""
 if [[ "$PYTHON_VERSION" == "3.13" ]]; then
-  ADDITIONAL_TAG_ARGS+=" -t $DOCKER_USERNAME/pyngrok:$VERSION-$DISTRO"
+  ADDITIONAL_TAG_ARGS+=" -t $DOCKER_USERNAME/pyngrok:$DISTRO-$VERSION"
   ADDITIONAL_TAG_ARGS+=" -t $DOCKER_USERNAME/pyngrok:$DISTRO"
 
   if [[ "$DISTRO" == "slim-bookworm" ]]; then
-    ADDITIONAL_TAG_ARGS+=" -t $DOCKER_USERNAME/pyngrok:$VERSION-py$PYTHON_VERSION"
+    ADDITIONAL_TAG_ARGS+=" -t $DOCKER_USERNAME/pyngrok:py$PYTHON_VERSION-$VERSION"
     ADDITIONAL_TAG_ARGS+=" -t $DOCKER_USERNAME/pyngrok:py$PYTHON_VERSION"
 
     ADDITIONAL_TAG_ARGS+=" -t $DOCKER_USERNAME/pyngrok"
@@ -49,5 +49,5 @@ docker buildx build \
     .
 
 if [[ "$PUBLISH" != "" ]]; then
-  echo "--> PUBLISH was set, so the built image for $DEFAULT_TAG and additional tags were also published to Docker Hub."
+  echo "--> PUBLISH was set, so the built image for $DEFAULT_TAG and tags was published to Docker Hub."
 fi
