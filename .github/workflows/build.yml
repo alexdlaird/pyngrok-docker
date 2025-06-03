@@ -53,4 +53,8 @@ jobs:
             echo "PLATFORM=${{ env.ALPINE_PLATFORMS }}" >> $GITHUB_ENV
           fi
       - name: Docker build
-        run: PYTHON_VERSION=${{ matrix.python-version }} DISTRO=${{ matrix.distro }} ./build.sh
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/} \
+          PYTHON_VERSION=${{ matrix.python-version }} \
+          DISTRO=${{ matrix.distro }} \
+          ./build.sh

@@ -3,12 +3,8 @@ name: Release
 run-name: Release ${{ github.ref_name }}
 
 on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
-# TODO: no tagging for now, while we're just building WIPs
-#   release:
-#     types: [ created ]
+  release:
+    types: [ created ]
 
 jobs:
   release:
