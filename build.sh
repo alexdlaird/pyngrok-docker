@@ -11,13 +11,13 @@ if [[ "$PLATFORM" == "" ]]; then echo "PLATFORM is not set" & exit 1 ; fi
 
 PUBLISH_ARGS=""
 if [[ "$PUBLISH" == "true" ]]; then
-  if [[ "$DOCKER_ACCESS_TOKEN" == "" ]]; then echo "DOCKER_ACCESS_TOKEN is not set" & exit 1 ; fi
+  if [[ "$DOCKER_ACCESS_TOKEN" == "" ]]; then echo "DOCKER_ACCESS_TOKEN is not set, required when PUBLISH=true" & exit 1 ; fi
 
   echo "$DOCKER_ACCESS_TOKEN" | docker login --username "$DOCKER_USERNAME" --password-stdin
 
   PUBLISH_ARGS+=" --push"
 
-  echo "--> PUBLISH is set, so the built image for $DEFAULT_TAG and tags will be published to Docker Hub with version $VERSION."
+  echo "--> PUBLISH=true, so the built image for $DEFAULT_TAG and tags will be published to Docker Hub with version $VERSION."
 fi
 
 # Build tag aliases
