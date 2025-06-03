@@ -5,4 +5,3 @@ FROM python:$PYTHON_VERSION-$DISTRO
 
 RUN PIP_ROOT_USER_ACTION=ignore python -m pip --no-cache-dir install pyngrok
 RUN ngrok
-RUN echo "test just changing the docker file"
