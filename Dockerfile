@@ -1,5 +1,5 @@
 ARG PYTHON_VERSION=3.13
-ARG DISTRO=bookworm
+ARG DISTRO=slim-bookworm
 
 FROM python:$PYTHON_VERSION-$DISTRO
 

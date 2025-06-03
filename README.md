@@ -7,7 +7,7 @@ alongside a stable build.
 Example to use one of the WIP containers:
 
 ```sh
-docker run --env-file .env -it alexdlaird/pyngrok:3.13-bookworm
+docker run --env-file .env -it alexdlaird/pyngrok:3.13-slim-bookworm
 ```
 
 Version Map
