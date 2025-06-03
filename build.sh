@@ -16,28 +16,38 @@ else
   echo "$DOCKER_ACCESS_TOKEN" | docker login --username "$DOCKER_USERNAME" --password-stdin
 
   PUBLISH_ARGS+=" --push"
+
+  echo "PUBLISH is set, so the build image and tags will be pushed to Docker Hub with version $VERSION."
 fi
 
 # Build tag aliases
-ADDITIONAL_TAGS=""
+DEFAULT_TAG="$DOCKER_USERNAME/pyngrok:$VERSION-py$PYTHON_VERSION-$DISTRO"
+ADDITIONAL_TAG_ARGS=""
 if [[ "$PYTHON_VERSION" == "3.13" ]]; then
-  ADDITIONAL_TAGS+=" -t $DOCKER_USERNAME/pyngrok:$VERSION-$DISTRO"
-  ADDITIONAL_TAGS+=" -t $DOCKER_USERNAME/pyngrok:$DISTRO"
+  ADDITIONAL_TAG_ARGS+=" -t $DOCKER_USERNAME/pyngrok:$VERSION-$DISTRO"
+  ADDITIONAL_TAG_ARGS+=" -t $DOCKER_USERNAME/pyngrok:$DISTRO"
 
   if [[ "$DISTRO" == "bookworm" ]]; then
-    ADDITIONAL_TAGS+=" -t $DOCKER_USERNAME/pyngrok:$VERSION-py$PYTHON_VERSION"
-    ADDITIONAL_TAGS+=" -t $DOCKER_USERNAME/pyngrok:py$PYTHON_VERSION"
+    ADDITIONAL_TAG_ARGS+=" -t $DOCKER_USERNAME/pyngrok:$VERSION-py$PYTHON_VERSION"
+    ADDITIONAL_TAG_ARGS+=" -t $DOCKER_USERNAME/pyngrok:py$PYTHON_VERSION"
 
-    ADDITIONAL_TAGS+=" -t $DOCKER_USERNAME/pyngrok:latest"
+    ADDITIONAL_TAG_ARGS+=" -t $DOCKER_USERNAME/pyngrok:latest"
   fi
 fi
 
+echo "--> Build will start for PYTHON_VERSION=$PYTHON_VERSION, DISTRO=$DISTRO, PLATFORM=$PLATFORM, VERSION=$VERSION."
+echo "--> Build will be tagged with -t $DEFAULT_TAG $ADDITIONAL_TAG_ARGS"
+
 # shellcheck disable=SC2086
 docker buildx build \
-    -t "$DOCKER_USERNAME/pyngrok:$VERSION-py$PYTHON_VERSION-$DISTRO" \
-    $ADDITIONAL_TAGS \
+    -t "$DEFAULT_TAG" \
+    $ADDITIONAL_TAG_ARGS \
     --build-arg "PYTHON_VERSION=$PYTHON_VERSION" \
     --build-arg "DISTRO=$DISTRO" \
     --platform="$PLATFORM" \
     $PUBLISH_ARGS \
     .
+
+if [[ "$PUBLISH" != "" ]]; then
+  echo "--> PUBLISH was set, so the built image and tags were also published to Docker Hub."
+fi
