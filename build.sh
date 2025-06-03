@@ -10,14 +10,14 @@ if [[ "$DISTRO" == "" ]]; then echo "DISTRO is not set" & exit 1 ; fi
 if [[ "$PLATFORM" == "" ]]; then echo "PLATFORM is not set" & exit 1 ; fi
 
 PUBLISH_ARGS=""
-if [[ "$PUBLISH" != "" ]]; then
+if [[ "$PUBLISH" == "true" ]]; then
   if [[ "$DOCKER_ACCESS_TOKEN" == "" ]]; then echo "DOCKER_ACCESS_TOKEN is not set" & exit 1 ; fi
-else
+
   echo "$DOCKER_ACCESS_TOKEN" | docker login --username "$DOCKER_USERNAME" --password-stdin
 
   PUBLISH_ARGS+=" --push"
 
-  echo "PUBLISH is set, so the build image and tags will be pushed to Docker Hub with version $VERSION."
+  echo "--> PUBLISH is set, so the built image for $DEFAULT_TAG and tags will be published to Docker Hub with version $VERSION."
 fi
 
 # Build tag aliases
@@ -50,7 +50,3 @@ docker buildx build \
     --platform="$PLATFORM" \
     $PUBLISH_ARGS \
     .
-
-if [[ "$PUBLISH" != "" ]]; then
-  echo "--> PUBLISH was set, so the built image for $DEFAULT_TAG and tags was published to Docker Hub."
-fi
