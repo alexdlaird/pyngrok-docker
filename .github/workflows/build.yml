@@ -13,7 +13,6 @@ on:
     inputs:
       version:
         type: string
-        default: latest
         required: true
       publish:
         type: boolean
@@ -34,7 +33,6 @@ jobs:
 
     env:
       DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-      VERSION: ${{ inputs.version }}
       PUBLISH: ${{ inputs.publish }}
       DEBIAN_PLATFORMS: linux/386,linux/amd64,linux/arm,linux/arm64
       ALPINE_PLATFORMS: linux/386,linux/amd64,linux/arm,linux/arm64,linux/ppc64le,linux/s390x
@@ -60,6 +58,10 @@ jobs:
           else
             echo "PLATFORM=${{ env.ALPINE_PLATFORMS }}" >> $GITHUB_ENV
           fi
+      - name: Set version
+        run: |
+          VERSION=${{ inputs.name }}
+          echo VERSION=${VERSION:-latest}" >> $GITHUB_ENV
       - name: Docker build
         run: |
           PYTHON_VERSION=${{ matrix.python-version }} \
