@@ -2,6 +2,8 @@
 
 set -o errexit
 
+set -x
+
 DOCKER_USERNAME="${DOCKER_USERNAME:-alexdlaird}"
 
 if [[ "$VERSION" == "" ]]; then echo "VERSION is not set" & exit 1 ; fi
