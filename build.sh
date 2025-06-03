@@ -28,6 +28,7 @@ if [[ "$PYTHON_VERSION" == "3.13" ]]; then
   fi
 fi
 
+# shellcheck disable=SC2086
 docker buildx build \
     -t "$DOCKER_USERNAME/pyngrok:$PYTHON_VERSION-$DISTRO" \
     $ADDITIONAL_TAGS \
