@@ -60,8 +60,8 @@ jobs:
           fi
       - name: Set version
         run: |
-          VERSION=${{ inputs.name }}
-          echo VERSION=${VERSION:-latest}" >> $GITHUB_ENV
+          VERSION=${{ inputs.version }}
+          echo "VERSION=${VERSION:-latest}" >> $GITHUB_ENV
       - name: Docker build
         run: |
           PYTHON_VERSION=${{ matrix.python-version }} \
