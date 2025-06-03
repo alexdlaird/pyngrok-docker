@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -o errexit
+set -x
 
 DOCKER_USERNAME="${DOCKER_USERNAME:-alexdlaird}"
 
@@ -16,7 +17,6 @@ docker buildx build \
     --build-arg "PYTHON_VERSION=$PYTHON_VERSION" \
     --build-arg "DISTRO=$DISTRO" \
     --platform="$PLATFORM" \
-    --load \
     .
 
 # Add special tags for default images
