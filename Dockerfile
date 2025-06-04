@@ -5,3 +5,5 @@ FROM python:$PYTHON_VERSION-$DISTRO
 
 RUN PIP_ROOT_USER_ACTION=ignore python -m pip --no-cache-dir install pyngrok
 RUN ngrok
+
+RUN mkdir -p /root/.config/ngrok
