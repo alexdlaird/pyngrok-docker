@@ -6,8 +6,8 @@
 [![GitHub License](https://img.shields.io/github/license/alexdlaird/pyngrok)](https://github.com/alexdlaird/pyngrok/blob/main/LICENSE)
 
 [`pyngrok`](https://github.com/alexdlaird/pyngrok) is a Python wrapper for `ngrok` that manages its own binary,
-making `ngrok` available via a convenient Python API, the command line, and in this repo, via pre-built Docker images
-(based off the official Python images).
+making `ngrok` available via a convenient Python API, the command line, and (from this repo) via pre-built Docker
+images (based off the official Python images), available on [Docker Hub](https://hub.docker.com/r/alexdlaird/pyngrok).
 
 [`ngrok`](https://ngrok.com) is a reverse proxy that opens secure tunnels from public URLs to localhost. It's perfect
 for rapid  development (test webhooks, demo local websites, enable SSH access), establishing ingress to external
@@ -28,12 +28,16 @@ with the container.
 ```sh
 docker run -e NGROK_AUTHTOKEN=<NGROK_AUTHTOKEN> -it alexdlaird/pyngrok /bin/bash
 ```
+### Config File
 
-You can also launch the container with a config file mounted.
+By default, `ngrok` will look for a config file at `/root/.config/ngrok/ngrok.yml`. If you want to mount a custom
+config file, specify a mount to this file when launching the container.
 
 ```sh
 docker run -v ./ngrok.yml:/root/.config/ngrok/ngrok.yml -it alexdlaird/pyngrok
 ```
+
+### Web Inspector
 
 If you want to use `ngrok`'s web inspector, be sure to expose its port (defaults to 4040). If you're not using the
 default config file provided in the container, be sure to [set `web_addr: 0.0.0.0:4040`](https://ngrok.com/docs/agent/config/v2/#web_addr).
@@ -69,14 +73,13 @@ docker compose up -d
 
 ## Documentation
 
-For more advanced usage, `pyngrok`'s official documentation is available
+For more advanced usage of `pyngrok`, its official documentation is available
 on [Read the Docs](https://pyngrok.readthedocs.io).
 
 ### Command Line Usage
 
-`pyngrok` package puts the default `ngrok` binary on your path, so all features of `ngrok` are
-also available on the command line, once at the shell within a container. So all features of `ngrok` are
-available on the command line.
+`pyngrok` package puts the default `ngrok` binary on your path in the container. So all features of `ngrok` are
+also available on the command line.
 
 ```sh
 docker run -e NGROK_AUTHTOKEN=<NGROK_AUTHTOKEN> -it alexdlaird/pyngrok ngrok http 80
