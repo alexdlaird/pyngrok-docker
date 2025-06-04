@@ -96,14 +96,14 @@ Images are multi-architectural, and tagged with the following format:
 alexdlaird/pyngrok:py<PYTHON_VERSION>-<DISTRO>-<VERSION>
 ```
 
-They are available with the following tag variants:
+The following [tag variants](https://hub.docker.com/r/alexdlaird/pyngrok/tags) are available:
 
 - `<PYTHON_VERSION>` has `3.8` through `3.13`
   - If none given, defaults to `3.13`
 - `<DISTRO>` has `alpine`, or Debian flavors of `bookworm`, `slim-bookworm`, `bullseye`, `slim-bullseye`
   - If none given, defaults to `slim-bookworm`
 - `<VERSION>` match the table below
-  - If none given, defaults to `-latest`
+  - If none given, defaults to `latest`
 
 For reference, [`<VERSION>` releases](https://github.com/alexdlaird/pyngrok-docker/releases) map to the following `pyngrok` and `ngrok` versions:
 
