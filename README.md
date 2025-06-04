@@ -6,7 +6,7 @@
 [![GitHub License](https://img.shields.io/github/license/alexdlaird/pyngrok)](https://github.com/alexdlaird/pyngrok/blob/main/LICENSE)
 
 [`pyngrok`](https://github.com/alexdlaird/pyngrok) is a Python wrapper for `ngrok` that manages its own binary,
-making `ngrok` available via a convenient Python API, the command line, and (from this repo) via pre-built Docker
+making `ngrok` available via a convenient Python API, the command line, and (from this repo) via pre-built
 images, available on [Docker Hub](https://hub.docker.com/r/alexdlaird/pyngrok).
 
 [`ngrok`](https://ngrok.com) is a reverse proxy that opens secure tunnels from public URLs to localhost. It's perfect
