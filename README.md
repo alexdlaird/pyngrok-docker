@@ -40,8 +40,8 @@ docker run -v ./ngrok.yml:/root/.config/ngrok/ngrok.yml -it alexdlaird/pyngrok
 ### Web Inspector
 
 If you want to use `ngrok`'s web inspector, be sure to expose its port. Be sure whatever config file you use
-[sets `web_addr: 0.0.0.0:4040`](https://ngrok.com/docs/agent/config/v2/#web_addr) (the default config provisioned in
-the container already does this).
+[sets `web_addr: 0.0.0.0:4040`](https://ngrok.com/docs/agent/config/v2/#web_addr) (the config provisioned in the
+pre-built images already does this).
 
 ```sh
 docker run --env-file .env -p 4040:4040 -it alexdlaird/pyngrok
