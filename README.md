@@ -4,8 +4,9 @@
 [![Docs](https://img.shields.io/readthedocs/pyngrok)](https://pyngrok.readthedocs.io/en/latest)
 [![GitHub License](https://img.shields.io/github/license/alexdlaird/pyngrok)](https://github.com/alexdlaird/pyngrok/blob/main/LICENSE)
 
-`pyngrok` is a Python wrapper for `ngrok` that manages its own binary, making `ngrok` available via a convenient Python
-API, the command line, and in this repo, via pre-built Docker images (based off the official Python images).
+[`pyngrok`](https://github.com/alexdlaird/pyngrok) is a Python wrapper for `ngrok` that manages its own binary,
+making `ngrok` available via a convenient Python API, the command line, and in this repo, via pre-built Docker images
+(based off the official Python images).
 
 [`ngrok`](https://ngrok.com) is a reverse proxy that opens secure tunnels from public URLs to localhost. It's perfect
 for rapid  development (test webhooks, demo local websites, enable SSH access), establishing ingress to external
@@ -20,22 +21,30 @@ To launch the container in to a Python shell with `pyngrok` installed, run:
 docker run -e NGROK_AUTHTOKEN=<NGROK_AUTHTOKEN> -it alexdlaird/pyngrok
 ```
 
-You can also start a `bash` shell instead, to interact more directly with the container.
+Instead of launching directly in to Python, you can also start in a `bash` shell, allowing more direct interactions
+with the container.
 
 ```sh
 docker run -e NGROK_AUTHTOKEN=<NGROK_AUTHTOKEN> -it alexdlaird/pyngrok /bin/bash
 ```
 
-You can also launch the container with a config file mounted, and exposing port 4040 (`ngrok`'s web inspector):
+You can also launch the container with a config file mounted.
 
 ```sh
-docker run -v ./ngrok.yml:/root/.config/ngrok/ngrok.yml --p 4040:4040 -it alexdlaird/pyngrok
+docker run -v ./ngrok.yml:/root/.config/ngrok/ngrok.yml -it alexdlaird/pyngrok
+```
+
+If you want to use `ngrok`'s web inspector, be sure to expose its port (defaults to 4040). If you're not using the
+default config file provided in the container, be sure to [set `web_addr: 0.0.0.0:4040`](https://ngrok.com/docs/agent/config/v2/#web_addr).
+
+```sh
+docker run --env-file .env -p 4040:4040 -it alexdlaird/pyngrok
 ```
 
 ### Docker Compose
 
-Here is an example of how you could launch the container, and run a Python script on startup, using a
-`docker-compose.yml` file:
+Here is an example of how you could launch the container using `docker-compose.yml`. In this example, there is also
+a Python script, perhaps with some `pyngrok` code, that will be run on startup:
 
 ```yaml
 services:
@@ -68,7 +77,7 @@ also available on the command line, once at the shell within a container. So all
 available on the command line.
 
 ```sh
-ngrok http 80
+docker run -e NGROK_AUTHTOKEN=<NGROK_AUTHTOKEN> -it alexdlaird/pyngrok ngrok http 80
 ```
 
 For details on how to fully leverage `ngrok` from the command line,
