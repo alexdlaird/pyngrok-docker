@@ -51,6 +51,7 @@ a Python script, perhaps with some `pyngrok` code, that will be run on startup:
 services:
   ngrok:
     image: alexdlaird/pyngrok
+    env_file: ".env"
     command:
       - "python /root/my-script.py"
     volumes:
