@@ -45,7 +45,7 @@ docker run --env-file .env -p 4040:4040 -it alexdlaird/pyngrok
 ### Docker Compose
 
 Here is an example of how you could launch the container using `docker-compose.yml`. In this example, there is also
-a Python script, perhaps with some `pyngrok` code, that will be run on startup:
+a Python script that will be run on startup:
 
 ```yaml
 services:
