@@ -60,6 +60,8 @@ jobs:
           fi
       - name: Set version
         run: |
-          echo "PYNGROK_VERSION=${{ inputs.version }}" >> $GITHUB_ENV
+          if [[ ${{ inputs.version }} != "" ]]; then
+            echo "PYNGROK_VERSION=${{ inputs.version }}" >> $GITHUB_ENV
+          fi
       - name: Docker build
         run: PYTHON_VERSION=${{ matrix.python-version }} DISTRO=${{ matrix.distro }} make
