@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -o errexit
-set -x
 
 PYTHON_BIN=${PYTHON_BIN:-python}
 GREP_BIN=${GREP_BIN:-grep}
@@ -9,8 +8,7 @@ GREP_BIN=${GREP_BIN:-grep}
 DOCKER_USERNAME="${DOCKER_USERNAME:-alexdlaird}"
 
 if [[ "$PYNGROK_VERSION" == "" ]]; then
-  $PYTHON_BIN -m pip index versions pyngrok
-  PYNGROK_VERSION=$($PYTHON_BIN -m pip index versions pyngrok | $GREP_BIN -oP 'LATEST:\s+\K.*')
+  PYNGROK_VERSION=$($PYTHON_BIN -m pip index versions pyngrok | $GREP_BIN -oP 'Available versions: \K[0-9\.]*')
   echo "PYNGROK_VERSION not set, using latest $PYNGROK_VERSION"
 fi
 if [[ "$PYTHON_VERSION" == "" ]]; then echo "PYTHON_VERSION is not set" & exit 1 ; fi
