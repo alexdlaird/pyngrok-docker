@@ -2,9 +2,15 @@
 
 set -o errexit
 
+PYTHON_BIN=${PYTHON_BIN:-python}
+GREP_BIN=${GREP_BIN:-grep}
+
 DOCKER_USERNAME="${DOCKER_USERNAME:-alexdlaird}"
 
-if [[ "$PYNGROK_VERSION" == "" ]]; then echo "PYNGROK_VERSION is not set" & exit 1 ; fi
+if [[ "$PYNGROK_VERSION" == "" ]]; then
+  PYNGROK_VERSION=$($PYTHON_BIN -m pip index versions pyngrok | $GREP_BIN -oP 'LATEST:\s+\K.*')
+  echo "PYNGROK_VERSION not set, using latest $PYNGROK_VERSION"
+fi
 if [[ "$PYTHON_VERSION" == "" ]]; then echo "PYTHON_VERSION is not set" & exit 1 ; fi
 if [[ "$DISTRO" == "" ]]; then echo "DISTRO is not set" & exit 1 ; fi
 if [[ "$PLATFORM" == "" ]]; then echo "PLATFORM is not set" & exit 1 ; fi

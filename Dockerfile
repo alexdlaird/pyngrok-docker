@@ -3,7 +3,7 @@ ARG DISTRO=slim-bookworm
 
 FROM python:$PYTHON_VERSION-$DISTRO
 
-ARG PYNGROK_VERSION=7.2.9
+ARG PYNGROK_VERSION
 
 RUN mkdir -p /root/.config/ngrok
 RUN echo "version: 2\nweb_addr: 0.0.0.0:4040" >> /root/.config/ngrok/ngrok.yml
