@@ -9,6 +9,7 @@ GREP_BIN=${GREP_BIN:-grep}
 DOCKER_USERNAME="${DOCKER_USERNAME:-alexdlaird}"
 
 if [[ "$PYNGROK_VERSION" == "" ]]; then
+  $PYTHON_BIN -m pip index versions pyngrok
   PYNGROK_VERSION=$($PYTHON_BIN -m pip index versions pyngrok | $GREP_BIN -oP 'LATEST:\s+\K.*')
   echo "PYNGROK_VERSION not set, using latest $PYNGROK_VERSION"
 fi
