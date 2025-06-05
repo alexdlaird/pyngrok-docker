@@ -11,7 +11,7 @@ making `ngrok` available via a convenient Python API, the command line, and (fro
 container images, available on [Docker Hub](https://hub.docker.com/r/alexdlaird/pyngrok).
 
 [`ngrok`](https://ngrok.com) is a reverse proxy that opens secure tunnels from public URLs to localhost. It's perfect
-for rapid  development (test webhooks, demo local websites, enable SSH access), establishing ingress to external
+for rapid development (test webhooks, demo local websites, enable SSH access), establishing ingress to external
 networks and devices, building production APIs (traffic policies, OAuth, load balancing), and more. And
 it's made even more powerful with native Python integration through the `pyngrok` client.
 
@@ -100,15 +100,16 @@ alexdlaird/pyngrok:py<PYTHON_VERSION>-<DISTRO>-<PYNGROK_VERSION>
 The following [tag variants](https://hub.docker.com/r/alexdlaird/pyngrok/tags) are available:
 
 - `<PYTHON_VERSION>` has `3.8` through `3.13`
-  - If none given, defaults to `3.13`
+    - If none given, defaults to `3.13`
 - `<DISTRO>` has `alpine`, or Debian flavors of `bookworm`, `slim-bookworm`, `bullseye`, `slim-bullseye`
-  - If none given, defaults to `slim-bookworm`
+    - If none given, defaults to `slim-bookworm`
 - `<PYNGROK_VERSION>` matches the table below
-  - If none given, defaults to `latest`
+    - If none given, defaults to `latest`
 
 The container image version (`<PYNGROK_VERSION>`) corresponds to its installed `pyngrok` version. This reference table
 shows the installed version of `ngrok` version in each published image:
 
 | `pyngrok` Version | `ngrok` Version |
 |-------------------|-----------------|
+| 7.2.11            | 3.23.0          |
 | 7.2.9             | 3.22.1          |
