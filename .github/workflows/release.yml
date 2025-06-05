@@ -7,6 +7,24 @@ on:
     types: [ created ]
 
 jobs:
+  validate-version:
+    name: Validate Version
+
+    env:
+      FORCE_COLOR: 1
+      PYTHONUNBUFFERED: 1
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Validate version
+        run: make validate-release VERSION=${GITHUB_REF#refs/tags/}
+
   release:
     name: Release
     uses: ./.github/workflows/build.yml
