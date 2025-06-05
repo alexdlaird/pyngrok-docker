@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -o errexit
+set -x
 
 PYTHON_BIN=${PYTHON_BIN:-python}
 GREP_BIN=${GREP_BIN:-grep}
