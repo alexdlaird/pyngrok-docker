@@ -3,6 +3,7 @@
 SHELL := /usr/bin/env bash
 PYNGROK_VERSION ?= 7.2.9
 PYTHON_VERSION ?= 3.13
+DISTRO ?= slim-bookworm
 PLATFORM ?= linux/arm64
 
 all: build
@@ -14,4 +15,4 @@ validate-release:
 	@if [[ $$(grep "ARG PYNGROK_VERSION=${VERSION}" Dockerfile) == "" ]] ; then echo "Version not bumped in Dockerfile" & exit 1 ; fi
 
 build:
-	PYNGROK_VERSION=$(PYNGROK_VERSION) PYTHON_VERSION=$(PYTHON_VERSION) DISTRO=slim-bookworm PLATFORM=$(PLATFORM) ./build.sh
+	PYNGROK_VERSION=$(PYNGROK_VERSION) PYTHON_VERSION=$(PYTHON_VERSION) DISTRO=$(DISTRO) PLATFORM=$(PLATFORM) ./build.sh

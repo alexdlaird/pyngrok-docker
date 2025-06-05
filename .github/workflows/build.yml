@@ -60,10 +60,6 @@ jobs:
           fi
       - name: Set version
         run: |
-          VERSION=${{ inputs.version }}
-          echo "VERSION=${VERSION:-latest}" >> $GITHUB_ENV
+          echo "PYNGROK_VERSION=${{ inputs.version }}" >> $GITHUB_ENV
       - name: Docker build
-        run: |
-          PYTHON_VERSION=${{ matrix.python-version }} \
-          DISTRO=${{ matrix.distro }} \
-          ./build.sh
+        run: PYTHON_VERSION=${{ matrix.python-version }} DISTRO=${{ matrix.distro }} make
