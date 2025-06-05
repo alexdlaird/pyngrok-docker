@@ -16,3 +16,6 @@ for ((i=0; i<RETRIES; ++i)); do
 
   (( RETRY_COUNT+=1 ))
 done
+
+echo "pyngrok==$VERSION found on PyPI, waiting 10 minutes for cache disbursement ..."
+sleep 600
