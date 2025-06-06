@@ -107,9 +107,9 @@ The following [tag variants](https://hub.docker.com/r/alexdlaird/pyngrok/tags) a
     - If none given, defaults to `latest`
 
 The first three numbers of the container version correspond to the version of `pyngrok` it has installed, or you can
-just use the `pyngrok` version to grab the latest tagged image for that version.
+just use the `pyngrok` version to grab the latest tagged image for that release.
 
-This reference table shows the `ngrok` version that is published in each image:
+This table shows the `ngrok` version that is published in each image:
 
 | Container Version | `ngrok` Version |
 |-------------------|-----------------|
