@@ -8,12 +8,20 @@ GREP_BIN=${GREP_BIN:-grep}
 DOCKER_USERNAME="${DOCKER_USERNAME:-alexdlaird}"
 
 if [[ "$VERSION" == "" ]]; then
-  VERSION=$($PYTHON_BIN -m pip index versions pyngrok | $GREP_BIN -oP 'Available versions: \K[0-9\.]*')
+  VERSION=$($PYTHON_BIN -m pip index versions pyngrok | $GREP_BIN -oP 'Available versions: \K[0-9\.]*').0
   echo "VERSION not set, using latest $VERSION"
+fi
+# shellcheck disable=SC2046
+if [ $(echo "$VERSION" | grep -o "\." | grep -c "\.") != 3 ]; then
+  echo "VERSION must have four numbers, be of format x.y.z.a" & exit 1
 fi
 if [[ "$PYTHON_VERSION" == "" ]]; then echo "PYTHON_VERSION is not set" & exit 1 ; fi
 if [[ "$DISTRO" == "" ]]; then echo "DISTRO is not set" & exit 1 ; fi
 if [[ "$PLATFORM" == "" ]]; then echo "PLATFORM is not set" & exit 1 ; fi
+
+PYNGROK_VERSION="${VERSION%.*}"
+MINOR_VERSION="${PYNGROK_VERSION%.*}"
+MAJOR_VERSION="${MINOR_VERSION%.*}"
 
 ###################################################################
 # Determine if we should publish the built image to Docker Hub
@@ -33,15 +41,6 @@ fi
 ###################################################################
 # Build tag aliases
 ###################################################################
-
-# If four version numbers weren't provided, add .0 to the end
-# shellcheck disable=SC2046
-if [ $(echo "$VERSION" | grep -o "\." | grep -c "\.") = 2 ]; then
-  VERSION+=".0"
-fi
-PYNGROK_VERSION="${VERSION%.*}"
-MINOR_VERSION="${PYNGROK_VERSION%.*}"
-MAJOR_VERSION="${MINOR_VERSION%.*}"
 
 DEFAULT_TAG="$DOCKER_USERNAME/pyngrok:py$PYTHON_VERSION-$DISTRO-$VERSION"
 ADDITIONAL_TAG_ARGS=" -t $DOCKER_USERNAME/pyngrok:py$PYTHON_VERSION-$DISTRO-$MAJOR_VERSION"
