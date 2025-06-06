@@ -94,7 +94,7 @@ see [`ngrok`'s official documentation](https://ngrok.com/docs/agent/cli/).
 Images are multi-architectural, and tagged with the following format:
 
 ```sh
-alexdlaird/pyngrok:py<PYTHON_VERSION>-<DISTRO>-<PYNGROK_VERSION>
+alexdlaird/pyngrok:py<PYTHON_VERSION>-<DISTRO>-<VERSION>
 ```
 
 The following [tag variants](https://hub.docker.com/r/alexdlaird/pyngrok/tags) are available:
@@ -103,13 +103,14 @@ The following [tag variants](https://hub.docker.com/r/alexdlaird/pyngrok/tags) a
     - If none given, defaults to `3.13`
 - `<DISTRO>` has `alpine`, or Debian flavors of `bookworm`, `slim-bookworm`, `bullseye`, `slim-bullseye`
     - If none given, defaults to `slim-bookworm`
-- `<PYNGROK_VERSION>` matches the table below
+- `<VERSION>` matches the table below
     - If none given, defaults to `latest`
 
-The container image version (`<PYNGROK_VERSION>`) corresponds to its installed `pyngrok` version. This reference table
-shows the installed version of `ngrok` version in each published image:
+The first three numbers of the container version correspond to the version of `pyngrok` it has installed, or you can
+just use the `pyngrok` version to grab the latest tagged image for that version.
 
-| `pyngrok` Version | `ngrok` Version |
+This reference table shows the `ngrok` version that is published in each image:
+
+| Container Version | `ngrok` Version |
 |-------------------|-----------------|
-| 7.2.11            | 3.23.0          |
-| 7.2.9             | 3.22.1          |
+| 7.2.11.0          | 3.23.0          |

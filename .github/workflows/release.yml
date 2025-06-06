@@ -5,12 +5,20 @@ run-name: Release ${{ github.ref_name }}
 on:
   release:
     types: [ created ]
+  workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        required: true
 
 jobs:
-  wait-for-pypi:
-    name: Wait for pyngrok on PyPI
+  validate-version:
+    name: Validate Version
 
     runs-on: ubuntu-latest
+
+    outputs:
+      my_variable: ${{ steps.set_version.outputs.VERSION }}
 
     steps:
       - uses: actions/checkout@v4
@@ -18,15 +26,23 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
+      - name: Set version
+        id: set_version
+        run: |
+          if [[ "${{ inputs.version }}" != "" ]]; then
+            echo "VERSION=${{ inputs.version }" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          fi
       - name: Wait for pyngrok on PyPI
-        run: VERSION=${GITHUB_REF#refs/tags/} ./scripts/wait-for-pypi.sh
+        run: VERSION=${{ steps.set_version.outputs.VERSION }} ./scripts/wait-for-pypi.sh
 
   release:
     name: Release
-    needs: [wait-for-pypi]
+    needs: [validate-version]
     
     uses: ./.github/workflows/build.yml
     secrets: inherit
     with:
-      version: ${GITHUB_REF#refs/tags/}
+      version: ${{ needs.wait-for-pypi.outputs.VERSION }}
       publish: true
