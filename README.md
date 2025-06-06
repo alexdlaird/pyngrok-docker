@@ -20,13 +20,13 @@ it's made even more powerful with native Python integration through the `pyngrok
 To launch the container in to a Python shell, run:
 
 ```sh
-docker run -e NGROK_AUTHTOKEN=<NGROK_AUTHTOKEN> -it alexdlaird/pyngrok
+docker run -e NGROK_AUTHTOKEN=$NGROK_AUTHTOKEN -it alexdlaird/pyngrok
 ```
 
 If you want to start in a `bash` shell instead of Python, you can launch the container with:
 
 ```sh
-docker run -e NGROK_AUTHTOKEN=<NGROK_AUTHTOKEN> -it alexdlaird/pyngrok /bin/bash
+docker run -e NGROK_AUTHTOKEN=$NGROK_AUTHTOKEN -it alexdlaird/pyngrok /bin/bash
 ```
 
 ### Config File
@@ -83,7 +83,7 @@ on [Read the Docs](https://pyngrok.readthedocs.io).
 also available on the command line.
 
 ```sh
-docker run -e NGROK_AUTHTOKEN=<NGROK_AUTHTOKEN> -it alexdlaird/pyngrok ngrok http 80
+docker run -e NGROK_AUTHTOKEN=$NGROK_AUTHTOKEN -it alexdlaird/pyngrok ngrok http 80
 ```
 
 For details on how to fully leverage `ngrok` from the command line,
@@ -94,16 +94,16 @@ see [`ngrok`'s official documentation](https://ngrok.com/docs/agent/cli/).
 Images are multi-architectural, and tagged with the following format:
 
 ```sh
-alexdlaird/pyngrok:py<PYTHON_VERSION>-<DISTRO>-<VERSION>
+alexdlaird/pyngrok:py$PYTHON_VERSION-$DISTRO-$VERSION
 ```
 
 The following [tag variants](https://hub.docker.com/r/alexdlaird/pyngrok/tags) are available:
 
-- `<PYTHON_VERSION>` has `3.8` through `3.13`
+- `$PYTHON_VERSION` has `3.8` through `3.13`
     - If none given, defaults to `3.13`
-- `<DISTRO>` has `alpine`, or Debian flavors of `bookworm`, `slim-bookworm`, `bullseye`, `slim-bullseye`
+- `$DISTRO` has `alpine`, or Debian flavors of `bookworm`, `slim-bookworm`, `bullseye`, `slim-bullseye`
     - If none given, defaults to `slim-bookworm`
-- `<VERSION>` matches the table below
+- `$VERSION` matches the table below
     - If none given, defaults to `latest`
 
 The first three numbers of the container version correspond to the version of `pyngrok` it has installed, or you can
