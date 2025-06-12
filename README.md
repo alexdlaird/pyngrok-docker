@@ -117,3 +117,4 @@ This table shows the `ngrok` version that is published in each image:
 | Container Version | `ngrok` Version |
 |-------------------|-----------------|
 | 7.2.11.0          | 3.23.0          |
+| 7.2.11.1          | 3.23.1          |
