@@ -29,7 +29,7 @@ If you want to start in a `bash` shell instead of Python, you can launch the con
 docker run -e NGROK_AUTHTOKEN=$NGROK_AUTHTOKEN -it alexdlaird/pyngrok /bin/bash
 ```
 
-The [`pyngrok-example-flask` repository](https://github.com/alexdlaird/pyngrok-example-flask>) also includes a
+The [`pyngrok-example-flask` repository](https://github.com/alexdlaird/pyngrok-example-flask) also includes a
 `Dockerfile` and `make` commands to run it, if you would like to see a complete example.
 
 ### Config File
