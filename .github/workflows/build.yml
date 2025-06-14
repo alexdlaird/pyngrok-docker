@@ -40,8 +40,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [ "3.13", "3.12", "3.11", "3.10", "3.9", "3.8" ]
-        distro: [ bookworm, slim-bookworm, bullseye, slim-bullseye, alpine ]
+        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13" ]
+        distro: [ alpine, bullseye, slim-bullseye, bookworm, slim-bookworm ]
 
     runs-on: ubuntu-latest
 
