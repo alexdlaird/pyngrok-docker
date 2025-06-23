@@ -43,7 +43,7 @@ docker run -v ./ngrok.yml:/root/.config/ngrok/ngrok.yml -it alexdlaird/pyngrok
 
 ### Web Inspector
 
-If you want to use `ngrok`'s web inspector, be sure to expose its port. Be sure whatever config file you use
+If you want to use `ngrok`'s web inspector, be sure to expose its port. Ensure whatever config file you use
 [sets `web_addr: 0.0.0.0:4040`](https://ngrok.com/docs/agent/config/v2/#web_addr) (the config provisioned in the
 pre-built images already does this).
 
@@ -82,7 +82,7 @@ on [Read the Docs](https://pyngrok.readthedocs.io).
 
 ### Command Line Usage
 
-`pyngrok` package puts the default `ngrok` binary on your path in the container, so all features of `ngrok` are
+The `pyngrok` package puts the default `ngrok` binary on your path in the container, so all features of `ngrok` are
 also available on the command line.
 
 ```sh
