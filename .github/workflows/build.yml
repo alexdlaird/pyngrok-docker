@@ -44,7 +44,7 @@ jobs:
         distro: [ alpine, bullseye, slim-bullseye, bookworm, slim-bookworm ]
         exclude:
           - python-version: "3.13"
-            distro-version: slim-bookworm
+            distro: slim-bookworm
 
     runs-on: ubuntu-latest
 
