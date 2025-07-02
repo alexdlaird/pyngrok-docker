@@ -114,8 +114,8 @@ just use the `pyngrok` version to grab the latest tagged image for that release.
 
 This table shows the `ngrok` version that is published in each image:
 
-| Container Version | `ngrok` Version |
-|-------------------|-----------------|
-| 7.2.11.0          | 3.23.0          |
-| 7.2.11.1          | 3.23.1          |
-| 7.2.11.2          | 3.23.3          |
+| Container Version | [Agent Version](https://ngrok.com/docs/agent/changelog/) |
+|-------------------|----------------------------------------------------------|
+| 7.2.11.2          | 3.23.3                                                   |
+| 7.2.11.1          | 3.23.1                                                   |
+| 7.2.11.0          | 3.23.0                                                   |
