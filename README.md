@@ -106,10 +106,10 @@ The following [tag variants](https://hub.docker.com/r/alexdlaird/pyngrok/tags) a
     - If none given, defaults to `3.13`
 - `$DISTRO` has `alpine`, or Debian flavors of `bookworm`, `slim-bookworm`, `bullseye`, `slim-bullseye`
     - If none given, defaults to `slim-bookworm`
-- `$VERSION` matches the table below
+- `$VERSION` matches the container version in table below
     - If none given, defaults to `latest`
 
-The first three numbers of the container version correspond to the version of `pyngrok` it has installed, or you can
+The first three numbers of the container version correspond to the version of `pyngrok` it has installed, and you can
 just use the `pyngrok` version to grab the latest tagged image for that release.
 
 This table shows the `ngrok` version that is published in each image:
