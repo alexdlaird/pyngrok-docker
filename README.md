@@ -118,3 +118,4 @@ This table shows the `ngrok` version that is published in each image:
 |-------------------|-----------------|
 | 7.2.11.0          | 3.23.0          |
 | 7.2.11.1          | 3.23.1          |
+| 7.2.11.2          | 3.23.3          |
