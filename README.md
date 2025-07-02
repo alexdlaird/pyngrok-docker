@@ -103,7 +103,7 @@ alexdlaird/pyngrok:py$PYTHON_VERSION-$DISTRO-$VERSION
 The following [tag variants](https://hub.docker.com/r/alexdlaird/pyngrok/tags) are available:
 
 - `$PYTHON_VERSION` has `3.8` through `3.13`
-    - If none given, defaults to `3.13`
+    - If none given, defaults to `latest`
 - `$DISTRO` has `alpine`, or Debian flavors of `bookworm`, `slim-bookworm`, `bullseye`, `slim-bullseye`
     - If none given, defaults to `slim-bookworm`
 - `$VERSION` matches the container version in table below
