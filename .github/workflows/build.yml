@@ -40,8 +40,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13" ]
-        distro: [ alpine, bullseye, slim-bullseye, bookworm, slim-bookworm ]
+        python-version: [ "3.9", "3.10", "3.11", "3.12", "3.13" ]
+        distro: [ alpine, bookworm, slim-bookworm ]
         exclude:
           - python-version: "3.13"
             distro: slim-bookworm
@@ -60,7 +60,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
       - name: Set platforms
         run: |
-          if [[ ${{ matrix.distro }} == *"bookworm"* || ${{ matrix.distro }} == *"bullseye"* ]]; then
+          if [[ ${{ matrix.distro }} == *"bookworm"* ]]; then
             echo "PLATFORM=${{ env.DEBIAN_PLATFORMS }}" >> $GITHUB_ENV
           else
             echo "PLATFORM=${{ env.ALPINE_PLATFORMS }}" >> $GITHUB_ENV
@@ -82,8 +82,7 @@ jobs:
     env:
       DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
       PUBLISH: ${{ inputs.publish }}
-      DEBIAN_PLATFORMS: linux/386,linux/amd64,linux/arm,linux/arm64
-      ALPINE_PLATFORMS: linux/386,linux/amd64,linux/arm,linux/arm64,linux/ppc64le,linux/s390x
+      PLATFORMS: linux/386,linux/amd64,linux/arm,linux/arm64
 
     strategy:
       fail-fast: false
@@ -103,13 +102,6 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Set platforms
-        run: |
-          if [[ ${{ matrix.distro }} == *"bookworm"* || ${{ matrix.distro }} == *"bullseye"* ]]; then
-            echo "PLATFORM=${{ env.DEBIAN_PLATFORMS }}" >> $GITHUB_ENV
-          else
-            echo "PLATFORM=${{ env.ALPINE_PLATFORMS }}" >> $GITHUB_ENV
-          fi
       - name: Set version
         run: |
           if [[ "${{ inputs.version }}" != "" ]]; then
