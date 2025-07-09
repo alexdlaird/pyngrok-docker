@@ -35,7 +35,7 @@ jobs:
       DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
       PUBLISH: ${{ inputs.publish }}
       DEBIAN_PLATFORMS: linux/386,linux/amd64,linux/arm,linux/arm64
-      ALPINE_PLATFORMS: linux/386,linux/amd64,linux/arm,linux/arm64,linux/ppc64le,linux/s390x
+      ALPINE_PLATFORMS: linux/386,linux/amd64,linux/arm,linux/arm64
 
     strategy:
       fail-fast: false

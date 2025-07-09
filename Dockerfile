@@ -6,7 +6,7 @@ FROM python:$PYTHON_VERSION-$DISTRO
 ARG PYNGROK_VERSION
 
 RUN mkdir -p /root/.config/ngrok
-RUN echo "version: 2\nweb_addr: 0.0.0.0:4040" >> /root/.config/ngrok/ngrok.yml
+RUN echo -e "version: 2\nweb_addr: 0.0.0.0:4040" >> /root/.config/ngrok/ngrok.yml
 
 RUN PIP_ROOT_USER_ACTION=ignore python -m pip --no-cache-dir install pyngrok==$PYNGROK_VERSION
 
