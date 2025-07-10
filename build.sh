@@ -4,6 +4,7 @@ set -o errexit
 
 PYTHON_BIN=${PYTHON_BIN:-python}
 GREP_BIN=${GREP_BIN:-grep}
+DEFAULT_TAG_SUFFIX=${DEFAULT_TAG_SUFFIX:-}
 
 DOCKER_USERNAME="${DOCKER_USERNAME:-alexdlaird}"
 
@@ -22,6 +23,7 @@ if [[ "$PLATFORM" == "" ]]; then echo "PLATFORM is not set" & exit 1 ; fi
 PYNGROK_VERSION="${VERSION%.*}"
 MINOR_VERSION="${PYNGROK_VERSION%.*}"
 MAJOR_VERSION="${MINOR_VERSION%.*}"
+DEFAULT_TAG="$DOCKER_USERNAME/pyngrok:py$PYTHON_VERSION-$DISTRO-$VERSION$DEFAULT_TAG_SUFFIX"
 
 ###################################################################
 # Determine if we should publish the built image to Docker Hub
@@ -42,7 +44,6 @@ fi
 # Build tag aliases
 ###################################################################
 
-DEFAULT_TAG="$DOCKER_USERNAME/pyngrok:py$PYTHON_VERSION-$DISTRO-$VERSION"
 ADDITIONAL_TAG_ARGS=" -t $DOCKER_USERNAME/pyngrok:py$PYTHON_VERSION-$DISTRO-$MAJOR_VERSION"
 ADDITIONAL_TAG_ARGS=" -t $DOCKER_USERNAME/pyngrok:py$PYTHON_VERSION-$DISTRO-$MINOR_VERSION"
 ADDITIONAL_TAG_ARGS=" -t $DOCKER_USERNAME/pyngrok:py$PYTHON_VERSION-$DISTRO-$PYNGROK_VERSION"

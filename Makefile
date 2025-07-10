@@ -14,11 +14,10 @@ clean:
 	rm -rf pyngrok-example-flask
 
 test-downstream:
+	@if [[ "${VERSION}" == "" ]]; then echo "VERSION is not set" & exit 1 ; fi
+
 	@( \
 		git clone https://github.com/alexdlaird/pyngrok-example-flask.git; \
-		( make -C pyngrok-example-flask install ) || exit $$?; \
-		source pyngrok-example-flask/venv/bin/activate; \
-		( make build ) || exit $$?; \
-		( make -C pyngrok-example-flask build-docker run-docker ) || exit $$?; \
-		( make -C pyngrok-example-flask test ); \
+		( DEFAULT_TAG_SUFFIX=-custom-local make build ) || exit $$?; \
+		( TAG=py$PYTHON_VERSION-$DISTRO-$VERSION-custom-local make -C pyngrok-example-flask build-docker run-docker ); \
 	)
