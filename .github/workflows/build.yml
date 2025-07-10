@@ -82,7 +82,7 @@ jobs:
     env:
       DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
       PUBLISH: ${{ inputs.publish }}
-      PLATFORMS: linux/386,linux/amd64,linux/arm,linux/arm64
+      PLATFORM: linux/386,linux/amd64,linux/arm,linux/arm64
 
     strategy:
       fail-fast: false
