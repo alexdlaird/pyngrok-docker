@@ -4,6 +4,7 @@ SHELL := /usr/bin/env bash
 PYTHON_VERSION ?= 3.13
 DISTRO ?= slim-bookworm
 PLATFORM ?= linux/arm64
+VERSION ?= $(shell ./scripts/pypi-latest.sh)
 
 all: build
 
@@ -14,8 +15,6 @@ clean:
 	rm -rf pyngrok-example-flask
 
 test-downstream:
-	@if [[ "${VERSION}" == "" ]]; then echo "VERSION is not set" & exit 1 ; fi
-
 	@( \
 		git clone https://github.com/alexdlaird/pyngrok-example-flask.git; \
 		grep -qxF "NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}" pyngrok-example-flask/.env || echo "NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}" >> pyngrok-example-flask/.env; \
