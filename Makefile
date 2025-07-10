@@ -1,4 +1,4 @@
-.PHONY: all validate-release build
+.PHONY: all validate-release build clean test-downstream
 
 SHELL := /usr/bin/env bash
 PYTHON_VERSION ?= 3.13
@@ -9,6 +9,9 @@ all: build
 
 build:
 	PYTHON_VERSION=$(PYTHON_VERSION) DISTRO=$(DISTRO) PLATFORM=$(PLATFORM) ./build.sh;
+
+clean:
+	rm -rf pyngrok-example-flask
 
 test-downstream:
 	@( \
