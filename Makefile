@@ -9,3 +9,13 @@ all: build
 
 build:
 	PYTHON_VERSION=$(PYTHON_VERSION) DISTRO=$(DISTRO) PLATFORM=$(PLATFORM) ./build.sh;
+
+test-downstream:
+	@( \
+		git clone https://github.com/alexdlaird/pyngrok-example-flask.git; \
+		( make -C pyngrok-example-flask install ) || exit $$?; \
+		source pyngrok-example-flask/venv/bin/activate; \
+		( make build ) || exit $$?; \
+		( make -C pyngrok-example-flask build-docker run-docker ) || exit $$?; \
+		( make -C pyngrok-example-flask test ); \
+	)
