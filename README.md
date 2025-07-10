@@ -3,8 +3,8 @@
 [![Version](https://img.shields.io/pypi/v/pyngrok)](https://pypi.org/project/pyngrok)
 [![Python Versions](https://img.shields.io/pypi/pyversions/pyngrok.svg)](https://pypi.org/project/pyngrok)
 [![Build](https://img.shields.io/github/actions/workflow/status/alexdlaird/pyngrok-docker/build.yml)](https://github.com/alexdlaird/pyngrok-docker/actions/workflows/build.yml)
-[![Docs](https://img.shields.io/readthedocs/pyngrok)](https://pyngrok.readthedocs.io/en/latest)
-[![GitHub License](https://img.shields.io/github/license/alexdlaird/pyngrok)](https://github.com/alexdlaird/pyngrok/blob/main/LICENSE)
+[![Docs](https://img.shields.io/readthedocs/pyngrok)](https://pyngrok.readthedocs.io/en/latest/integrations.html#docker)
+[![GitHub License](https://img.shields.io/github/license/alexdlaird/pyngrok-docker)](https://github.com/alexdlaird/pyngrok-docker/blob/main/LICENSE)
 
 [`pyngrok`](https://github.com/alexdlaird/pyngrok) is a Python wrapper for `ngrok` that manages its own binary,
 making `ngrok` available via a convenient Python API, the command line, and (from this repo) via pre-built
