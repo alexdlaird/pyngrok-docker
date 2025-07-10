@@ -117,4 +117,3 @@ This table shows the `ngrok` version that is published in each image:
 | Container Version | [Agent Version](https://ngrok.com/docs/agent/changelog/) |
 |-------------------|----------------------------------------------------------|
 | 7.2.12.0          | 3.23.3                                                   |
-| 7.2.11.2          | 3.23.3                                                   |
