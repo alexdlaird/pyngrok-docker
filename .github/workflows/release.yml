@@ -7,8 +7,8 @@ on:
     types: [ created ]
 
 jobs:
-  validate:
-    name: Validate
+  wait-for-pypi:
+    name: Wait for PyPI
 
     runs-on: ubuntu-latest
 
@@ -24,12 +24,10 @@ jobs:
           python-version: "3.13"
       - name: Wait for PyPI
         run: VERSION=${GITHUB_REF#refs/tags/} ./scripts/wait-for-pypi.sh
-      - name: Test downstream
-        run: make build test-downstream
 
   release:
     name: Release
-    needs: [validate]
+    needs: [validate, wait-for-pypi]
     
     uses: ./.github/workflows/build.yml
     secrets: inherit

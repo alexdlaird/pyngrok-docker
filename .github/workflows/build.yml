@@ -28,8 +28,14 @@ on:
         required: true
 
 jobs:
-  build:
-    name: Build
+  validate:
+    name: Validate
+    uses: ./.github/workflows/validate.yml
+    secrets: inherit
+
+  build-matrix:
+    name: Build Matrix
+    needs: validate
 
     env:
       DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
@@ -72,12 +78,15 @@ jobs:
           fi
       - name: Docker build
         run: PYTHON_VERSION=${{ matrix.python-version }} DISTRO=${{ matrix.distro }} make
+      - name: Dump Docker logs on failure
+        if: failure()
+        uses: jwalton/gh-docker-logs@v2
 
-  build-last:
+  build-latest:
     # This job should be functionality equivalent to above, it just ensures the "recent tags" shown on Docker Hub
     # are always the latest defaults
-    needs: build
     name: Build "Recent Tags"
+    needs: build-matrix
 
     env:
       DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
@@ -109,3 +118,6 @@ jobs:
           fi
       - name: Docker build
         run: PYTHON_VERSION=${{ matrix.python-version }} DISTRO=${{ matrix.distro }} make
+      - name: Dump Docker logs on failure
+        if: failure()
+        uses: jwalton/gh-docker-logs@v2

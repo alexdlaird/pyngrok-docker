@@ -1,0 +1,22 @@
+name: Validate
+
+on:
+  workflow_call:
+
+jobs:
+  validate:
+    name: Validate
+
+    runs-on: ubuntu-latest
+
+    env:
+      NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
+      PLATFORM: linux/amd64
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test downstream
+        run: make build test-downstream
+      - name: Dump Docker logs on failure
+        if: failure()
+        uses: jwalton/gh-docker-logs@v2
