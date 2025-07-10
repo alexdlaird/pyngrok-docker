@@ -22,10 +22,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
+      - name: Wait for PyPI
+        run: VERSION=${GITHUB_REF#refs/tags/} ./scripts/wait-for-pypi.sh
       - name: Test downstream
         run: make build test-downstream
-      - name: Wait for pyngrok on PyPI
-        run: VERSION=${GITHUB_REF#refs/tags/} ./scripts/wait-for-pypi.sh
 
   release:
     name: Release
