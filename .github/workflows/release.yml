@@ -12,8 +12,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    outputs:
-      my_variable: ${{ steps.set_version.outputs.VERSION }}
+    env:
+      PLATFORM: linux/amd64
 
     steps:
       - uses: actions/checkout@v4
