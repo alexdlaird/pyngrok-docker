@@ -31,7 +31,7 @@ echo "pyngrok==$PYNGROK_VERSION found on PyPI"
 CURRENT_TIME=$($DATE_BIN "+%s")
 ELAPSED_TIME=$(($CURRENT_TIME - $UPLOAD_TIME))
 if [ $ELAPSED_TIME -lt $CACHE_WAIT_TIME ]; then
-  NEEDED_WAIT=600-$ELAPSED_TIME
+  NEEDED_WAIT=$((600 - $ELAPSED_TIME))
   echo "Waiting $NEEDED_WAIT more seconds to ensure cache disbursement ..."
   sleep $NEEDED_WAIT
 fi
