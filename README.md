@@ -102,7 +102,7 @@ alexdlaird/pyngrok:py$PYTHON_VERSION-$DISTRO-$VERSION
 
 The following [tag variants](https://hub.docker.com/r/alexdlaird/pyngrok/tags) are available:
 
-- `$PYTHON_VERSION` has `3.8` through `3.13`
+- `$PYTHON_VERSION` has `3.9` through `3.13`
     - If none given, defaults to `latest`
 - `$DISTRO` has `alpine`, or Debian flavors of `bookworm`, `slim-bookworm`
     - If none given, defaults to `slim-bookworm`
@@ -116,6 +116,7 @@ This table shows the `ngrok` version that is published in each image:
 
 | Container Version | [Agent Version](https://ngrok.com/docs/agent/changelog/) |
 |-------------------|----------------------------------------------------------|
+| 7.2.13.0          | 3.25.1                                                   |
 | 7.2.12.2          | 3.25.0                                                   |
 | 7.2.12.1          | 3.24.0                                                   |
 | 7.2.12.0          | 3.23.3                                                   |
