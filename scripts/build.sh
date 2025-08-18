@@ -9,7 +9,7 @@ DEFAULT_TAG_SUFFIX=${DEFAULT_TAG_SUFFIX:-}
 DOCKER_USERNAME="${DOCKER_USERNAME:-alexdlaird}"
 
 if [[ "$VERSION" == "" ]]; then
-  VERSION=$(./scripts/pypi-latest.sh)
+  VERSION=$(./pypi-latest.sh)
   echo "VERSION not set, using latest $VERSION"
 fi
 # shellcheck disable=SC2046

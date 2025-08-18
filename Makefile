@@ -9,7 +9,7 @@ VERSION ?= $(shell ./scripts/pypi-latest.sh)
 all: build
 
 build:
-	PYTHON_VERSION=$(PYTHON_VERSION) DISTRO=$(DISTRO) PLATFORM=$(PLATFORM) ./build.sh;
+	PYTHON_VERSION=$(PYTHON_VERSION) DISTRO=$(DISTRO) PLATFORM=$(PLATFORM) ./scripts/build.sh;
 
 clean:
 	rm -rf pyngrok-example-flask
