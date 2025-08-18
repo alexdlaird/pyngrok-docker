@@ -2,6 +2,7 @@
 
 set -o errexit
 
+SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}")
 PYTHON_BIN=${PYTHON_BIN:-python}
 GREP_BIN=${GREP_BIN:-grep}
 DEFAULT_TAG_SUFFIX=${DEFAULT_TAG_SUFFIX:-}
@@ -9,7 +10,7 @@ DEFAULT_TAG_SUFFIX=${DEFAULT_TAG_SUFFIX:-}
 DOCKER_USERNAME="${DOCKER_USERNAME:-alexdlaird}"
 
 if [[ "$VERSION" == "" ]]; then
-  VERSION=$(./pypi-latest.sh)
+  VERSION=$(./$SCRIPT_DIR/pypi-latest.sh)
   echo "VERSION not set, using latest $VERSION"
 fi
 # shellcheck disable=SC2046
