@@ -27,6 +27,11 @@ on:
         default: false
         required: true
 
+permissions:
+  contents: read
+  issues: none
+  pull-requests: none
+
 jobs:
   validate:
     name: Validate
