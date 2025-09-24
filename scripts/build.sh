@@ -4,17 +4,24 @@ set -o errexit
 
 SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}")
 PYTHON_BIN=${PYTHON_BIN:-python}
-GREP_BIN=${GREP_BIN:-grep}
 DEFAULT_TAG_SUFFIX=${DEFAULT_TAG_SUFFIX:-}
 
 DOCKER_USERNAME="${DOCKER_USERNAME:-alexdlaird}"
+
+# Prefer ggrep, if it's installed (required on Mac)
+which ggrep > /dev/null
+if [ $? -eq 0 ]; then
+  grep_cmd="ggrep"
+else
+  grep_cmd="grep"
+fi
 
 if [[ "$VERSION" == "" ]]; then
   VERSION=$(./$SCRIPT_DIR/pypi-latest.sh)
   echo "VERSION not set, using latest $VERSION"
 fi
 # shellcheck disable=SC2046
-if [ $(echo "$VERSION" | grep -o "\." | grep -c "\.") != 3 ]; then
+if [ $(echo "$VERSION" | "${grep_cmd[@]}" -o "\." | "${grep_cmd[@]}" -c "\.") != 3 ]; then
   echo "VERSION must have four numbers, be of format x.y.z.a" & exit 1
 fi
 if [[ "$PYTHON_VERSION" == "" ]]; then echo "PYTHON_VERSION is not set" & exit 1 ; fi
