@@ -15,7 +15,7 @@ clean:
 	rm -rf pyngrok-example-flask
 
 test-downstream:
-	@( \
+	( \
 		git clone https://github.com/alexdlaird/pyngrok-example-flask.git; \
 		grep -qxF "NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}" pyngrok-example-flask/.env || echo "NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}" >> pyngrok-example-flask/.env; \
 		( DEFAULT_TAG_SUFFIX=-custom-local make build ) || exit $$?; \
