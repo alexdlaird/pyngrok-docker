@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Test downstream
-        run: make build test-downstream
+        run: make -n build test-downstream
       - name: Dump Docker logs on failure
         if: failure()
         uses: jwalton/gh-docker-logs@v2
