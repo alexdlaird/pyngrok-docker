@@ -5,9 +5,9 @@ PYTHON_BIN=${PYTHON_BIN:-python}
 # Prefer ggrep, if it's installed (required on Mac)
 which ggrep > /dev/null
 if [ $? -eq 0 ]; then
-  grep_cmd="ggrep"
+  GREP_BIN=ggrep
 else
-  grep_cmd="grep"
+  GREP_BIN=grep
 fi
 
-echo "$($PYTHON_BIN -m pip index versions pyngrok | "${grep_cmd[@]}" -oP 'Available versions: \K[0-9\.]*').0"
+echo "$($PYTHON_BIN -m pip index versions pyngrok | $GREP_BIN -oP 'Available versions: \K[0-9\.]*').0"
