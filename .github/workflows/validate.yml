@@ -19,7 +19,7 @@ jobs:
       PLATFORM: linux/amd64
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Test downstream
         run: make build test-downstream
       - name: Dump Docker logs on failure
