@@ -8,6 +8,11 @@ VERSION ?= $(shell ./scripts/pypi-latest.sh)
 
 all: build
 
+validate-release:
+	@if [[ "${VERSION}" == "" ]]; then echo "VERSION is not set" & exit 1 ; fi
+	@if [[ "${AGENT_VERSION}" == "" ]]; then echo "AGENT_VERSION is not set" & exit 1 ; fi
+	@if [[ $$(awk -v v="${VERSION}" -v a="${AGENT_VERSION}" '$$0 ~ "\\| " v " " && $$0 ~ a' README.md) == "" ]] ; then echo "README.md missing version map row for ${VERSION} -> ${AGENT_VERSION}" & exit 1 ; fi
+
 build:
 	PYTHON_VERSION=$(PYTHON_VERSION) DISTRO=$(DISTRO) PLATFORM=$(PLATFORM) ./scripts/build.sh
 
