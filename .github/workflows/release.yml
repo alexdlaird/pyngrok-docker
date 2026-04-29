@@ -7,7 +7,7 @@ on:
     types: [ created ]
 
 permissions:
-  contents: read
+  contents: write
   issues: none
   pull-requests: none
 
@@ -30,12 +30,153 @@ jobs:
       - name: Wait for PyPI
         run: VERSION=${GITHUB_REF#refs/tags/} ./scripts/wait-for-pypi.sh
 
+  update-readme:
+    name: Update README version map
+    needs: wait-for-pypi
+    runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.input.outputs.version }}
+      pyngrok_version: ${{ steps.input.outputs.pyngrok_version }}
+      agent_version: ${{ steps.agent.outputs.version }}
+
+    steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ secrets.RELEASE_BOT_APP_ID }}
+          private-key: ${{ secrets.RELEASE_BOT_PRIVATE_KEY }}
+          skip-token-revoke: true
+
+      - uses: actions/checkout@v6
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 0
+          ref: main
+
+      - name: Resolve container + pyngrok versions from tag
+        id: input
+        env:
+          GH_REF: ${{ github.ref }}
+        run: |
+          VERSION="${GH_REF#refs/tags/}"
+          PYNGROK_VERSION="${VERSION%.*}"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "pyngrok_version=${PYNGROK_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Container version: ${VERSION}"
+          echo "pyngrok version:   ${PYNGROK_VERSION}"
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Resolve ngrok agent version from pyngrok
+        id: agent
+        env:
+          PYNGROK_VERSION: ${{ steps.input.outputs.pyngrok_version }}
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet "pyngrok==${PYNGROK_VERSION}"
+          AGENT_VERSION=$(ngrok version | head -1 | awk '{print $3}')
+          if [ -z "${AGENT_VERSION}" ]; then
+            echo "::error::Failed to resolve ngrok agent version from pyngrok==${PYNGROK_VERSION}"
+            exit 1
+          fi
+          echo "version=${AGENT_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "ngrok agent version: ${AGENT_VERSION}"
+
+      - name: Prepend new row to README version map
+        env:
+          VERSION: ${{ steps.input.outputs.version }}
+          AGENT_VERSION: ${{ steps.agent.outputs.version }}
+        run: |
+          set -euo pipefail
+          # Locate the table separator that follows the "| Container Version" header.
+          HEADER_LINE=$(grep -n '^| Container Version ' README.md | head -1 | cut -d: -f1)
+          if [ -z "${HEADER_LINE}" ]; then
+            echo "::error::Could not locate '| Container Version' header in README.md"
+            exit 1
+          fi
+          SEP_LINE=$((HEADER_LINE + 1))
+          NEW_ROW=$(printf "| %-17s | %-56s |" "${VERSION}" "${AGENT_VERSION}")
+          awk -v n="${SEP_LINE}" -v row="${NEW_ROW}" '
+            { print }
+            NR == n { print row }
+          ' README.md > README.md.tmp
+          mv README.md.tmp README.md
+
+      - name: Validate README update
+        env:
+          VERSION: ${{ steps.input.outputs.version }}
+          AGENT_VERSION: ${{ steps.agent.outputs.version }}
+        run: make validate-release VERSION="${VERSION}" AGENT_VERSION="${AGENT_VERSION}"
+
+      - name: Commit README update via createCommitOnBranch (signed)
+        id: push
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          VERSION: ${{ steps.input.outputs.version }}
+          PYNGROK_VERSION: ${{ steps.input.outputs.pyngrok_version }}
+          AGENT_VERSION: ${{ steps.agent.outputs.version }}
+        run: |
+          set -euo pipefail
+
+          README_B64=$(base64 -w 0 README.md)
+          EXPECTED_HEAD=$(git rev-parse HEAD)
+
+          QUERY='mutation($input: CreateCommitOnBranchInput!) { createCommitOnBranch(input: $input) { commit { oid } } }'
+
+          PAYLOAD=$(jq -n \
+            --arg q "$QUERY" \
+            --arg head "$EXPECTED_HEAD" \
+            --arg headline "Update version map for ${VERSION}" \
+            --arg body "pyngrok ${PYNGROK_VERSION} (ngrok agent ${AGENT_VERSION})" \
+            --arg readme "$README_B64" \
+            '{
+              query: $q,
+              variables: {
+                input: {
+                  branch: { repositoryNameWithOwner: "alexdlaird/pyngrok-docker", branchName: "main" },
+                  expectedHeadOid: $head,
+                  message: { headline: $headline, body: $body },
+                  fileChanges: { additions: [{path: "README.md", contents: $readme}] }
+                }
+              }
+            }')
+
+          RESPONSE=$(echo "$PAYLOAD" | gh api graphql --input -)
+
+          SHA=$(jq -r '.data.createCommitOnBranch.commit.oid // empty' <<< "$RESPONSE")
+          if [ -z "$SHA" ]; then
+            echo "::error::createCommitOnBranch failed:"
+            jq . <<< "$RESPONSE"
+            exit 1
+          fi
+          echo "Created signed commit ${SHA} on main"
+          echo "sha=${SHA}" >> "$GITHUB_OUTPUT"
+
+      - name: Add release to job summary
+        env:
+          VERSION: ${{ steps.input.outputs.version }}
+          PYNGROK_VERSION: ${{ steps.input.outputs.pyngrok_version }}
+          AGENT_VERSION: ${{ steps.agent.outputs.version }}
+        run: |
+          {
+            echo "## Release \`${VERSION}\`"
+            echo ""
+            echo "- Container version: \`${VERSION}\`"
+            echo "- pyngrok version: \`${PYNGROK_VERSION}\`"
+            echo "- ngrok agent version: \`${AGENT_VERSION}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
   release:
     name: Release
-    needs: wait-for-pypi
-    
+    needs: [wait-for-pypi, update-readme]
+
     uses: ./.github/workflows/build.yml
     secrets: inherit
     with:
-      version: ${GITHUB_REF#refs/tags/}
+      version: ${{ needs.update-readme.outputs.version }}
       publish: true
