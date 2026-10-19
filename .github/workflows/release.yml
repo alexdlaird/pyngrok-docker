@@ -79,7 +79,7 @@ jobs:
         run: |
           set -euo pipefail
           python -m pip install --quiet "pyngrok==${PYNGROK_VERSION}"
-          AGENT_VERSION=$(ngrok version | head -1 | awk '{print $3}')
+          AGENT_VERSION=$(ngrok version | awk 'NR==1 {print $3}')
           if [ -z "${AGENT_VERSION}" ]; then
             echo "::error::Failed to resolve ngrok agent version from pyngrok==${PYNGROK_VERSION}"
             exit 1
