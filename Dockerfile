@@ -7,8 +7,9 @@ ARG PYNGROK_VERSION
 
 RUN mkdir -p /root/.config/ngrok
 RUN cat <<EOF > /root/.config/ngrok/ngrok.yml
-version: 2
-web_addr: 0.0.0.0:4040
+version: 3
+agent:
+  web_addr: 0.0.0.0:4040
 EOF
 
 RUN PIP_ROOT_USER_ACTION=ignore python -m pip --no-cache-dir install pyngrok==$PYNGROK_VERSION
