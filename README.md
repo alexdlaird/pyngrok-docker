@@ -1,4 +1,4 @@
-<p align="center"><img alt="pyngrok - a Python wrapper for ngrok" src="https://pyngrok.readthedocs.io/en/latest/_images/logo.png" /></p>
+<p align="center"><img alt="pyngrok - A Python wrapper for ngrok; programmatic tunnels for ingress, webhooks, demos, and APIs" src="https://pyngrok.readthedocs.io/en/latest/_images/logo.png" /></p>
 
 [![Version](https://img.shields.io/pypi/v/pyngrok)](https://pypi.org/project/pyngrok)
 [![Python Versions](https://img.shields.io/pypi/pyversions/pyngrok.svg)](https://pypi.org/project/pyngrok)
@@ -6,9 +6,11 @@
 [![Docs](https://img.shields.io/readthedocs/pyngrok)](https://pyngrok.readthedocs.io/en/latest/integrations.html#docker)
 [![GitHub License](https://img.shields.io/github/license/alexdlaird/pyngrok-docker)](https://github.com/alexdlaird/pyngrok-docker/blob/main/LICENSE)
 
-[`pyngrok`](https://github.com/alexdlaird/pyngrok) is a Python wrapper for `ngrok` that manages its own binary,
-making `ngrok` available via a convenient Python API, the command line, and (from this repo) via pre-built
-container images, available on [Docker Hub](https://hub.docker.com/r/alexdlaird/pyngrok).
+[`pyngrok`](https://github.com/alexdlaird/pyngrok) is a Python wrapper for `ngrok` that provides programmatic tunnels
+for ingress, webhooks, demos, and APIs. It downloads and manages the `ngrok` agent for you, making it available through
+a Python API, the command line, and (from this repo) pre-built container images, available on
+[Docker Hub](https://hub.docker.com/r/alexdlaird/pyngrok). It runs anywhere the `ngrok` agent does. The library is
+mature and stable, and it tracks new `ngrok` releases.
 
 [`ngrok`](https://ngrok.com) is a reverse proxy that opens secure tunnels from public URLs to localhost. It's perfect
 for rapid development (test webhooks, demo local websites, enable SSH access), establishing ingress to external
@@ -117,7 +119,6 @@ This table shows the `ngrok` version that is published in each image:
 | Container Version | [Agent Version](https://ngrok.com/docs/agent/changelog/) |
 |-------------------|----------------------------------------------------------|
 | 8.2.0.0           | 3.39.11                                                  |
-| 8.2.0.0           | ...Downloading                                          |
 | 8.1.2.0           | 3.39.1                                                   |
 | 8.1.1.0           | 3.39.0                                                   |
 | 8.1.0.0           | 3.38.0                                                   |
