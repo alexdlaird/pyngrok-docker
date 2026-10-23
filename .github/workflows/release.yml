@@ -17,10 +17,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
-      PLATFORM: linux/amd64
-
     steps:
       - uses: actions/checkout@v6
       - name: Set up Python 3.13

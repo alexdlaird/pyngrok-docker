@@ -1,7 +1,6 @@
 <p align="center"><img alt="pyngrok - A Python wrapper for ngrok; programmatic tunnels for ingress, webhooks, demos, and APIs" src="https://pyngrok.readthedocs.io/en/latest/_images/logo.png" /></p>
 
 [![Version](https://img.shields.io/pypi/v/pyngrok)](https://pypi.org/project/pyngrok)
-[![Python Versions](https://img.shields.io/pypi/pyversions/pyngrok.svg)](https://pypi.org/project/pyngrok)
 [![Build](https://img.shields.io/github/actions/workflow/status/alexdlaird/pyngrok-docker/build.yml)](https://github.com/alexdlaird/pyngrok-docker/actions/workflows/build.yml)
 [![Docs](https://img.shields.io/readthedocs/pyngrok)](https://pyngrok.readthedocs.io/en/latest/integrations.html#docker)
 [![GitHub License](https://img.shields.io/github/license/alexdlaird/pyngrok-docker)](https://github.com/alexdlaird/pyngrok-docker/blob/main/LICENSE)
@@ -47,10 +46,11 @@ docker run -v ./ngrok.yml:/root/.config/ngrok/ngrok.yml -it alexdlaird/pyngrok
 
 If you want to use `ngrok`'s web inspector, be sure to expose its port. Ensure whatever config file you use
 [sets `web_addr: 0.0.0.0:4040`](https://ngrok.com/docs/agent/config/v3/#web_addr) (the config provisioned in the
-pre-built images already does this).
+pre-built images already does this). Publish the port to `127.0.0.1` as shown, since `ngrok`'s agent API is also served
+on this port without authentication, and anyone who can reach it can start tunnels on your account.
 
 ```sh
-docker run --env-file .env -p 4040:4040 -it alexdlaird/pyngrok
+docker run --env-file .env -p 127.0.0.1:4040:4040 -it alexdlaird/pyngrok
 ```
 
 ### Docker Compose
@@ -63,12 +63,11 @@ services:
   ngrok:
     image: alexdlaird/pyngrok
     env_file: ".env"
-    command:
-      - "python /root/my-script.py"
+    command: [ "python", "/root/my-script.py" ]
     volumes:
       - ./my-script.py:/root/my-script.py
     ports:
-      - 4040:4040
+      - "127.0.0.1:4040:4040"
 ```
 
 Then launch it with:
@@ -104,7 +103,7 @@ alexdlaird/pyngrok:py$PYTHON_VERSION-$DISTRO-$VERSION
 
 The following [tag variants](https://hub.docker.com/r/alexdlaird/pyngrok/tags) are available:
 
-- `$PYTHON_VERSION` has `3.9` through `3.13`
+- `$PYTHON_VERSION` has `3.10` through `3.13`
     - If none given, defaults to `latest`
 - `$DISTRO` has `alpine`, or Debian flavors of `bookworm`, `slim-bookworm`
     - If none given, defaults to `slim-bookworm`

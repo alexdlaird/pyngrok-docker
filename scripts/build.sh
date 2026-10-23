@@ -36,7 +36,7 @@ if [[ "$PUBLISH" == "true" ]]; then
 
   echo "$DOCKER_ACCESS_TOKEN" | docker login --username "$DOCKER_USERNAME" --password-stdin
 
-  PUBLISH_ARGS+=" --push"
+  PUBLISH_ARGS+=" --push --sbom=true --provenance=mode=max"
 
   echo "--> PUBLISH=true, so the built image for $DEFAULT_TAG and tags will be published to Docker Hub with version $VERSION."
 fi
@@ -88,6 +88,7 @@ docker buildx build \
     --build-arg "PYTHON_VERSION=$PYTHON_VERSION" \
     --build-arg "DISTRO=$DISTRO" \
     --build-arg "PYNGROK_VERSION=$PYNGROK_VERSION" \
+    --build-arg "VERSION=$VERSION" \
     --platform="$PLATFORM" \
     $PUBLISH_ARGS \
     .
