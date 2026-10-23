@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up Python 3.13
         uses: actions/setup-python@v6
         with:
@@ -45,7 +45,7 @@ jobs:
           private-key: ${{ secrets.RELEASE_BOT_PRIVATE_KEY }}
           skip-token-revoke: true
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           token: ${{ steps.app-token.outputs.token }}
           fetch-depth: 0
