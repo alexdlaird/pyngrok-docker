@@ -46,8 +46,7 @@ docker run -v ./ngrok.yml:/root/.config/ngrok/ngrok.yml -it alexdlaird/pyngrok
 
 If you want to use `ngrok`'s web inspector, be sure to expose its port. Ensure whatever config file you use
 [sets `web_addr: 0.0.0.0:4040`](https://ngrok.com/docs/agent/config/v3/#web_addr) (the config provisioned in the
-pre-built images already does this). Publish the port to `127.0.0.1` as shown, since `ngrok`'s agent API is also served
-on this port without authentication, and anyone who can reach it can start tunnels on your account.
+pre-built images already does this).
 
 ```sh
 docker run --env-file .env -p 127.0.0.1:4040:4040 -it alexdlaird/pyngrok
