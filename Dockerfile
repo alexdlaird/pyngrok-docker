@@ -20,7 +20,7 @@ RUN ngrok version
 RUN ngrok config check
 
 LABEL org.opencontainers.image.title="pyngrok" \
-      org.opencontainers.image.description="A Python wrapper for ngrok; programmatic tunnels for ingress, webhooks, demos, and APIs" \
+      org.opencontainers.image.description="The complete ngrok agent for Python: programmatic tunnels for ingress, inspection, webhooks, demos, and APIs" \
       org.opencontainers.image.url="https://hub.docker.com/r/alexdlaird/pyngrok" \
       org.opencontainers.image.source="https://github.com/alexdlaird/pyngrok-docker" \
       org.opencontainers.image.documentation="https://pyngrok.readthedocs.io/en/latest/integrations.html#docker" \

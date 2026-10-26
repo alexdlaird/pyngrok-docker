@@ -1,20 +1,13 @@
-<p align="center"><img alt="pyngrok - A Python wrapper for ngrok; programmatic tunnels for ingress, webhooks, demos, and APIs" src="https://pyngrok.readthedocs.io/en/latest/_images/logo.png" /></p>
+<p align="center"><img alt="pyngrok - The complete ngrok agent for Python: programmatic tunnels for ingress, inspection, webhooks, demos, and APIs" src="https://pyngrok.readthedocs.io/en/latest/_images/logo.png" /></p>
 
-[![Version](https://img.shields.io/pypi/v/pyngrok)](https://pypi.org/project/pyngrok)
-[![Build](https://img.shields.io/github/actions/workflow/status/alexdlaird/pyngrok-docker/build.yml)](https://github.com/alexdlaird/pyngrok-docker/actions/workflows/build.yml)
-[![Docs](https://img.shields.io/readthedocs/pyngrok)](https://pyngrok.readthedocs.io/en/latest/integrations.html#docker)
-[![GitHub License](https://img.shields.io/github/license/alexdlaird/pyngrok-docker)](https://github.com/alexdlaird/pyngrok-docker/blob/main/LICENSE)
+[![Version](https://img.shields.io/pypi/v/pyngrok)](https://pypi.org/project/pyngrok) [![Build](https://img.shields.io/github/actions/workflow/status/alexdlaird/pyngrok-docker/build.yml)](https://github.com/alexdlaird/pyngrok-docker/actions/workflows/build.yml) [![Docs](https://img.shields.io/readthedocs/pyngrok)](https://pyngrok.readthedocs.io/en/latest/integrations.html#docker) [![GitHub License](https://img.shields.io/github/license/alexdlaird/pyngrok-docker)](https://github.com/alexdlaird/pyngrok-docker/blob/main/LICENSE)
 
-[`pyngrok`](https://github.com/alexdlaird/pyngrok) is a Python wrapper for `ngrok` that provides programmatic tunnels
-for ingress, webhooks, demos, and APIs. It downloads and manages the `ngrok` agent for you, making it available through
-a Python API, the command line, and (from this repo) pre-built container images, available on
-[Docker Hub](https://hub.docker.com/r/alexdlaird/pyngrok). It runs anywhere the `ngrok` agent does. The library is
-mature and stable, and it tracks new `ngrok` releases.
-
-[`ngrok`](https://ngrok.com) is a reverse proxy that opens secure tunnels from public URLs to localhost. It's perfect
-for rapid development (test webhooks, demo local websites, enable SSH access), establishing ingress to external
-networks and devices, building production APIs (traffic policies, OAuth, load balancing), and more. And
-it's made even more powerful with native Python integration through the `pyngrok` client.
+[`pyngrok`](https://github.com/alexdlaird/pyngrok) gives Python the complete `ngrok` agent, with programmatic tunnels
+for ingress, inspection, webhooks, demos, and APIs. [`ngrok`](https://ngrok.com) is a reverse proxy that opens secure
+tunnels from public URLs to localhost, and because `pyngrok` runs the real agent, you get everything it offers, from
+traffic policies and OAuth to its web inspector, request replay, and `ngrok.yml` config, all callable from Python. It
+downloads and manages the agent for you and tracks new `ngrok` releases, and this repo provides it in pre-built
+container images on [Docker Hub](https://hub.docker.com/r/alexdlaird/pyngrok).
 
 ## Basic Usage
 
