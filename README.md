@@ -18,7 +18,7 @@ it's made even more powerful with native Python integration through the `pyngrok
 
 ## Basic Usage
 
-To launch the container in to a Python shell, run:
+To launch the container into a Python shell, run:
 
 ```sh
 docker run -e NGROK_AUTHTOKEN=$NGROK_AUTHTOKEN -it alexdlaird/pyngrok
