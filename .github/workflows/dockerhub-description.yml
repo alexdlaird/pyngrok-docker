@@ -1,0 +1,33 @@
+name: Docker Hub Description
+
+run-name: Docker Hub Description ${{ github.ref_name }}
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ README.md ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: none
+  pull-requests: none
+
+jobs:
+  update-description:
+    name: Update Docker Hub Description
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build Docker Hub README
+        run: ./scripts/dockerhub-readme.sh README.md > DOCKERHUB_README.md
+      - name: Update Docker Hub description
+        uses: peter-evans/dockerhub-description@v5
+        with:
+          username: alexdlaird
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+          repository: alexdlaird/pyngrok
+          short-description: "The complete ngrok agent for Python, containerized: tunnels for ingress, inspection, and webhooks"
+          readme-filepath: ./DOCKERHUB_README.md
