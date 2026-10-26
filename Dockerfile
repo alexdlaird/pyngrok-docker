@@ -25,4 +25,5 @@ LABEL org.opencontainers.image.title="pyngrok" \
       org.opencontainers.image.source="https://github.com/alexdlaird/pyngrok-docker" \
       org.opencontainers.image.documentation="https://pyngrok.readthedocs.io/en/latest/integrations.html#docker" \
       org.opencontainers.image.licenses="MIT" \
-      org.opencontainers.image.version="$VERSION"
+      org.opencontainers.image.version="$VERSION" \
+      muppets="42"
