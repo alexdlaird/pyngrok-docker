@@ -2,11 +2,12 @@
 
 [![Version](https://img.shields.io/pypi/v/pyngrok)](https://pypi.org/project/pyngrok) [![Build](https://img.shields.io/github/actions/workflow/status/alexdlaird/pyngrok-docker/build.yml)](https://github.com/alexdlaird/pyngrok-docker/actions/workflows/build.yml) [![Docs](https://img.shields.io/readthedocs/pyngrok)](https://pyngrok.readthedocs.io/en/latest/integrations.html#docker) [![GitHub License](https://img.shields.io/github/license/alexdlaird/pyngrok-docker)](https://github.com/alexdlaird/pyngrok-docker/blob/main/LICENSE)
 
-[`pyngrok`](https://github.com/alexdlaird/pyngrok) gives Python the complete `ngrok` agent, with programmatic tunnels
-for ingress, inspection, webhooks, demos, and APIs. [`ngrok`](https://ngrok.com) is a reverse proxy that opens secure
-tunnels from public URLs to localhost, and because `pyngrok` runs the real agent, you get everything it offers, from
-traffic policies and OAuth to its web inspector, request replay, and `ngrok.yml` config, all callable from Python. This
-repo provides it in pre-built container images on [Docker Hub](https://hub.docker.com/r/alexdlaird/pyngrok).
+[`pyngrok`](https://github.com/alexdlaird/pyngrok) gives Python the complete [`ngrok`
+agent](https://ngrok.com/docs/gateway/agent), with programmatic tunnels for ingress, inspection, webhooks, demos, and
+APIs. [`ngrok`](https://ngrok.com) is a reverse proxy that opens secure tunnels from public URLs to localhost, and
+because `pyngrok` runs the real agent, you get everything it offers, from traffic policies and OAuth to its web
+inspector and request replay, all callable from Python. This repo provides it in pre-built container images on [Docker
+Hub](https://hub.docker.com/r/alexdlaird/pyngrok).
 
 ## Basic Usage
 
