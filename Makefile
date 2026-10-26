@@ -1,7 +1,7 @@
 .PHONY: all validate-release build clean test-downstream
 
 SHELL := /usr/bin/env bash
-PYTHON_VERSION ?= 3.13
+PYTHON_VERSION ?= 3.15
 DISTRO ?= slim-bookworm
 PLATFORM ?= linux/arm64
 VERSION ?= $(shell ./scripts/pypi-latest.sh)
