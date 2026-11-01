@@ -16,6 +16,7 @@ permissions:
 jobs:
   update-description:
     name: Update Docker Hub Description
+    if: github.ref == 'refs/heads/main'
 
     runs-on: ubuntu-latest
 
