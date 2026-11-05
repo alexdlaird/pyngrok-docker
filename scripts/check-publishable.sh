@@ -10,7 +10,6 @@ if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
   exit 1
 fi
 
-# Full-version tags are immutable: a rebuild of the same pyngrok version gets the next fourth number.
 STATUS=$(curl -s -o /dev/null -w '%{http_code}' "https://hub.docker.com/v2/repositories/$DOCKER_USERNAME/pyngrok/tags/$VERSION")
 case "$STATUS" in
   404) ;;
@@ -24,7 +23,6 @@ case "$STATUS" in
     ;;
 esac
 
-# The floating tags (latest, major, minor) follow the newest version, which heads the README version map.
 LATEST=$(awk '/^\| Container Version /{getline; getline; print $2; exit}' README.md)
 if ! [[ "$LATEST" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
   echo "::error::Could not read the newest version from the README version map (got '$LATEST')."

@@ -6,10 +6,10 @@ RETRIES="${RETRIES:-30}"
 RETRY_WAIT_TIME="${RETRY_WAIT_TIME:-10}"
 CACHE_WAIT_TIME="${CACHE_WAIT_TIME:-600}"
 
-if [[ "${VERSION}" == "" ]]; then echo "VERSION is not set" & exit 1 ; fi
+if [[ "${VERSION}" == "" ]]; then echo "VERSION is not set"; exit 1 ; fi
 # shellcheck disable=SC2046
 if [ $(echo "$VERSION" | grep -o "\." | grep -c "\.") != 3 ]; then
-  echo "VERSION must have four numbers, be of format x.y.z.a" & exit 1
+  echo "VERSION must have four numbers, be of format x.y.z.a"; exit 1
 fi
 
 PYNGROK_VERSION="${VERSION%.*}"

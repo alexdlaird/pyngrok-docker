@@ -15,11 +15,11 @@ if [[ "$VERSION" == "" ]]; then
 fi
 # shellcheck disable=SC2046
 if [ $(echo "$VERSION" | $GREP_BIN -o "\." | $GREP_BIN -c "\.") != 3 ]; then
-  echo "VERSION must have four numbers, be of format x.y.z.a" & exit 1
+  echo "VERSION must have four numbers, be of format x.y.z.a"; exit 1
 fi
-if [[ "$PYTHON_VERSION" == "" ]]; then echo "PYTHON_VERSION is not set" & exit 1 ; fi
-if [[ "$DISTRO" == "" ]]; then echo "DISTRO is not set" & exit 1 ; fi
-if [[ "$PLATFORM" == "" ]]; then echo "PLATFORM is not set" & exit 1 ; fi
+if [[ "$PYTHON_VERSION" == "" ]]; then echo "PYTHON_VERSION is not set"; exit 1 ; fi
+if [[ "$DISTRO" == "" ]]; then echo "DISTRO is not set"; exit 1 ; fi
+if [[ "$PLATFORM" == "" ]]; then echo "PLATFORM is not set"; exit 1 ; fi
 
 PYNGROK_VERSION="${VERSION%.*}"
 MINOR_VERSION="${PYNGROK_VERSION%.*}"
@@ -32,7 +32,7 @@ DEFAULT_TAG="$DOCKER_USERNAME/pyngrok:py$PYTHON_VERSION-$DISTRO-$VERSION$DEFAULT
 
 PUBLISH_ARGS=""
 if [[ "$PUBLISH" == "true" ]]; then
-  if [[ "$DOCKER_ACCESS_TOKEN" == "" ]]; then echo "DOCKER_ACCESS_TOKEN is not set, required when PUBLISH=true" & exit 1 ; fi
+  if [[ "$DOCKER_ACCESS_TOKEN" == "" ]]; then echo "DOCKER_ACCESS_TOKEN is not set, required when PUBLISH=true"; exit 1 ; fi
 
   echo "$DOCKER_ACCESS_TOKEN" | docker login --username "$DOCKER_USERNAME" --password-stdin
 

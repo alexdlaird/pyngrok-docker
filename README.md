@@ -1,6 +1,6 @@
-<p align="center"><img alt="pyngrok - The complete ngrok agent for Python: programmatic tunnels for ingress, inspection, webhooks, demos, and APIs" src="https://pyngrok.readthedocs.io/en/latest/_images/logo.png" /></p>
+<p align="center"><img alt="pyngrok - The complete ngrok agent for Python: programmatic tunnels for ingress, inspection, webhooks, demos, and APIs" src="https://pyngrok.readthedocs.io/en/stable/_images/logo.png" /></p>
 
-[![Version](https://img.shields.io/pypi/v/pyngrok)](https://pypi.org/project/pyngrok) [![Build](https://img.shields.io/github/actions/workflow/status/alexdlaird/pyngrok-docker/build.yml)](https://github.com/alexdlaird/pyngrok-docker/actions/workflows/build.yml) [![Docs](https://img.shields.io/readthedocs/pyngrok)](https://pyngrok.readthedocs.io/en/latest/integrations.html#docker) [![GitHub License](https://img.shields.io/github/license/alexdlaird/pyngrok-docker)](https://github.com/alexdlaird/pyngrok-docker/blob/main/LICENSE)
+[![Version](https://img.shields.io/pypi/v/pyngrok)](https://pypi.org/project/pyngrok) [![Build](https://img.shields.io/github/actions/workflow/status/alexdlaird/pyngrok-docker/build.yml)](https://github.com/alexdlaird/pyngrok-docker/actions/workflows/build.yml) [![Docs](https://img.shields.io/readthedocs/pyngrok)](https://pyngrok.readthedocs.io/en/stable/integrations.html#docker) [![GitHub License](https://img.shields.io/github/license/alexdlaird/pyngrok-docker)](https://github.com/alexdlaird/pyngrok-docker/blob/main/LICENSE)
 
 [`pyngrok`](https://github.com/alexdlaird/pyngrok) gives Python the complete [`ngrok`
 agent](https://ngrok.com/docs/gateway/agent), with programmatic tunnels for ingress, inspection, webhooks, demos, and
