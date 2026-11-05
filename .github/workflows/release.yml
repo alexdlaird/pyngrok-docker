@@ -1,15 +1,25 @@
 name: Release
 
-run-name: Release ${{ github.ref_name }}
+run-name: Release ${{ inputs.version || github.ref_name }}
 
 on:
   release:
-    types: [ created ]
+    types: [ published ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "The container version to release (x.y.z.a), when the release event's run was cancelled or failed"
+        type: string
+        required: true
 
 permissions:
   contents: write
   issues: none
   pull-requests: none
+
+concurrency:
+  group: pyngrok-docker-release
+  cancel-in-progress: false
 
 jobs:
   wait-for-pypi:
@@ -17,24 +27,47 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    outputs:
+      version: ${{ steps.input.outputs.version }}
+      pyngrok_version: ${{ steps.input.outputs.pyngrok_version }}
+
     steps:
       - uses: actions/checkout@v6
+      - name: Resolve container + pyngrok versions
+        id: input
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+          GH_REF: ${{ github.ref }}
+        run: |
+          VERSION="${INPUT_VERSION:-${GH_REF#refs/tags/}}"
+          PYNGROK_VERSION="${VERSION%.*}"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "pyngrok_version=${PYNGROK_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Container version: ${VERSION}"
+          echo "pyngrok version:   ${PYNGROK_VERSION}"
       - name: Set up Python 3.13
         uses: actions/setup-python@v6
         with:
           python-version: "3.13"
       - name: Wait for PyPI
-        run: VERSION=${GITHUB_REF#refs/tags/} ./scripts/wait-for-pypi.sh
+        env:
+          VERSION: ${{ steps.input.outputs.version }}
+        run: ./scripts/wait-for-pypi.sh
+
+  release:
+    name: Release
+    needs: wait-for-pypi
+
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
+    with:
+      version: ${{ needs.wait-for-pypi.outputs.version }}
+      publish: true
 
   update-readme:
     name: Update README version map
-    needs: wait-for-pypi
+    needs: [wait-for-pypi, release]
     runs-on: ubuntu-latest
-
-    outputs:
-      version: ${{ steps.input.outputs.version }}
-      pyngrok_version: ${{ steps.input.outputs.pyngrok_version }}
-      agent_version: ${{ steps.agent.outputs.version }}
 
     steps:
       - name: Generate GitHub App token
@@ -51,18 +84,6 @@ jobs:
           fetch-depth: 0
           ref: main
 
-      - name: Resolve container + pyngrok versions from tag
-        id: input
-        env:
-          GH_REF: ${{ github.ref }}
-        run: |
-          VERSION="${GH_REF#refs/tags/}"
-          PYNGROK_VERSION="${VERSION%.*}"
-          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
-          echo "pyngrok_version=${PYNGROK_VERSION}" >> "$GITHUB_OUTPUT"
-          echo "Container version: ${VERSION}"
-          echo "pyngrok version:   ${PYNGROK_VERSION}"
-
       - name: Set up Python 3.13
         uses: actions/setup-python@v6
         with:
@@ -71,7 +92,7 @@ jobs:
       - name: Resolve ngrok agent version from pyngrok
         id: agent
         env:
-          PYNGROK_VERSION: ${{ steps.input.outputs.pyngrok_version }}
+          PYNGROK_VERSION: ${{ needs.wait-for-pypi.outputs.pyngrok_version }}
         run: |
           set -euo pipefail
           python -m pip install --quiet "pyngrok==${PYNGROK_VERSION}"
@@ -85,11 +106,17 @@ jobs:
           echo "ngrok agent version: ${AGENT_VERSION}"
 
       - name: Prepend new row to README version map
+        id: row
         env:
-          VERSION: ${{ steps.input.outputs.version }}
+          VERSION: ${{ needs.wait-for-pypi.outputs.version }}
           AGENT_VERSION: ${{ steps.agent.outputs.version }}
         run: |
           set -euo pipefail
+          if grep -qE "^\| ${VERSION//./\\.} +\|" README.md; then
+            echo "README.md already has a row for ${VERSION}"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           # Locate the table separator that follows the "| Container Version" header.
           HEADER_LINE=$(grep -n '^| Container Version ' README.md | head -1 | cut -d: -f1)
           if [ -z "${HEADER_LINE}" ]; then
@@ -103,19 +130,21 @@ jobs:
             NR == n { print row }
           ' README.md > README.md.tmp
           mv README.md.tmp README.md
+          echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Validate README update
         env:
-          VERSION: ${{ steps.input.outputs.version }}
+          VERSION: ${{ needs.wait-for-pypi.outputs.version }}
           AGENT_VERSION: ${{ steps.agent.outputs.version }}
         run: make validate-release VERSION="${VERSION}" AGENT_VERSION="${AGENT_VERSION}"
 
       - name: Commit README update via createCommitOnBranch (signed)
         id: push
+        if: steps.row.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
-          VERSION: ${{ steps.input.outputs.version }}
-          PYNGROK_VERSION: ${{ steps.input.outputs.pyngrok_version }}
+          VERSION: ${{ needs.wait-for-pypi.outputs.version }}
+          PYNGROK_VERSION: ${{ needs.wait-for-pypi.outputs.pyngrok_version }}
           AGENT_VERSION: ${{ steps.agent.outputs.version }}
         run: |
           set -euo pipefail
@@ -156,8 +185,8 @@ jobs:
 
       - name: Add release to job summary
         env:
-          VERSION: ${{ steps.input.outputs.version }}
-          PYNGROK_VERSION: ${{ steps.input.outputs.pyngrok_version }}
+          VERSION: ${{ needs.wait-for-pypi.outputs.version }}
+          PYNGROK_VERSION: ${{ needs.wait-for-pypi.outputs.pyngrok_version }}
           AGENT_VERSION: ${{ steps.agent.outputs.version }}
         run: |
           {
@@ -167,13 +196,3 @@ jobs:
             echo "- pyngrok version: \`${PYNGROK_VERSION}\`"
             echo "- ngrok agent version: \`${AGENT_VERSION}\`"
           } >> "$GITHUB_STEP_SUMMARY"
-
-  release:
-    name: Release
-    needs: [wait-for-pypi, update-readme]
-
-    uses: ./.github/workflows/build.yml
-    secrets: inherit
-    with:
-      version: ${{ needs.update-readme.outputs.version }}
-      publish: true
